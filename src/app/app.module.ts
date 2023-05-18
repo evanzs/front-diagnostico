@@ -9,11 +9,16 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { QuestionsComponent } from './questions/questions.component';
 import {MatExpansionModule} from '@angular/material/expansion'; 
-import {MatInputModule} from '@angular/material/input'; 
+import {MatInputModule} from '@angular/material/input';
+import { LoginComponent } from './login/login.component'; 
+import { AppRoutingModule } from './app-routing.module';
+import {MatCardModule} from '@angular/material/card'; 
+import {MatButtonModule} from '@angular/material/button'; 
 @NgModule({
   declarations: [
     AppComponent,
     QuestionsComponent,
+    LoginComponent,
 
   ],
   imports: [
@@ -23,8 +28,10 @@ import {MatInputModule} from '@angular/material/input';
     NgbModule,
     NgbAccordionModule,
     MatExpansionModule,
-    MatInputModule
-  
+    MatInputModule,
+    AppRoutingModule,
+    MatCardModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
