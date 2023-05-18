@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -8,17 +9,19 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class LoginComponent {
 
+  constructor(private router: Router) { }
 
   formLogin = new FormGroup({
     password: new FormControl('',Validators.required),
-    user: new FormControl('',[Validators.required,Validators.email])
+    email: new FormControl('',[Validators.required,Validators.email])
   })
 
 
-  applyLogin(){
+  submitLogin(){
+ 
     if(this.formLogin.invalid)
       return;
 
-    
+    this.router.navigate(['/questions'])
   }
 }

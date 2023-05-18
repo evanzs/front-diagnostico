@@ -14,6 +14,7 @@ import { LoginComponent } from './login/login.component';
 import { AppRoutingModule } from './app-routing.module';
 import {MatCardModule} from '@angular/material/card'; 
 import {MatButtonModule} from '@angular/material/button'; 
+import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,7 +32,8 @@ import {MatButtonModule} from '@angular/material/button';
     MatInputModule,
     AppRoutingModule,
     MatCardModule,
-    MatButtonModule
+    MatButtonModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
