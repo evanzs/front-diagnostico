@@ -15,11 +15,13 @@ import { AppRoutingModule } from './app-routing.module';
 import {MatCardModule} from '@angular/material/card'; 
 import {MatButtonModule} from '@angular/material/button'; 
 import { ReactiveFormsModule } from '@angular/forms';
+import { MenuComponent } from './menu/menu.component';
 @NgModule({
   declarations: [
     AppComponent,
     QuestionsComponent,
     LoginComponent,
+    MenuComponent,
 
   ],
   imports: [
