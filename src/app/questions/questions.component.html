@@ -1,1 +1,32 @@
-<p>questions works!</p>
+<mat-accordion >
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+            Teste para diagnóstico.
+        </mat-panel-title>
+        <mat-panel-description>
+    descricao basica - titulo
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <p>    descricao basica</p>
+    </mat-expansion-panel>
+    <mat-expansion-panel *ngFor="let section of sections"
+                         (opened)="panelOpenState = true"
+                         (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{section.name}}
+        </mat-panel-title>
+        <mat-panel-description>
+         {{section.description}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+    <form class="example-form fs-6">
+        <div class="row m-3" *ngFor="let question of section.questions">     
+          <p>{{question.text}}</p>
+            <ngb-rating  [max]="5" [(rate)]="question.rating"></ngb-rating>     
+            <mat-divider  class="m-3"></mat-divider>
+        </div>  
+    </form>      
+    </mat-expansion-panel>    
+  </mat-accordion>

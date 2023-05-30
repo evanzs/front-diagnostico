@@ -1,0 +1,27 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+  }
+  
+  .spacer {
+    flex: 1 1 auto;
+  }
+  
+  .sidenav-container {
+    margin-top: 64px; /* altura da barra de navegação */
+    height: calc(100vh - 64px);
+  }
+  
+  .sidenav {
+    width: 250px;
+  }
+  
+  @media (max-width: 600px) {
+    .sidenav {
+      width: 100%;
+    }
+  }
+  
