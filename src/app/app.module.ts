@@ -14,19 +14,21 @@ import { LoginComponent } from './login/login.component';
 import { AppRoutingModule } from './app-routing.module';
 import {MatCardModule} from '@angular/material/card'; 
 import {MatButtonModule} from '@angular/material/button'; 
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MenuComponent } from './menu/menu.component';
 import {MatToolbarModule} from '@angular/material/toolbar'; 
 import {MatIconModule} from '@angular/material/icon'; 
 import {MatSidenavModule} from '@angular/material/sidenav'; 
-import {MatListModule} from '@angular/material/list'; 
+import {MatListModule} from '@angular/material/list';
+import { CreateQuestionComponent } from './create-question/create-question.component';
+import {MatMenuModule} from '@angular/material/menu'; 
 @NgModule({
   declarations: [
     AppComponent,
     QuestionsComponent,
     LoginComponent,
     MenuComponent,
-
+    CreateQuestionComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +45,9 @@ import {MatListModule} from '@angular/material/list';
     MatToolbarModule,
     MatIconModule,
     MatSidenavModule,
-    MatListModule
+    MatListModule,
+    MatMenuModule
+      
   ],
   providers: [],
   bootstrap: [AppComponent]
