@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Section } from '../models/section';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { AppService } from '../app.service';
 
 const ELEMENT_DATA: PeriodicElement[] = [
   {
@@ -112,7 +113,8 @@ export interface PeriodicElement {
 })
 export class CreateQuestionComponent {
   sectionForm: FormGroup;
-  constructor(private fb: FormBuilder) {
+
+  constructor(private fb: FormBuilder,public appService:AppService) {
     this.sectionForm = this.fb.group({
       name: ['', Validators.required],
       description: [''],
@@ -124,6 +126,8 @@ export class CreateQuestionComponent {
     if (this.sectionForm.valid) {
       // Processar os dados do formulário
       console.log(this.sectionForm.value);
+
+      this.appService.emitValor(this.sectionForm.value)
       this.sectionForm.reset();
       this.questions.clear();
     }
