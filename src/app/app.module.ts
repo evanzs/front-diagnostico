@@ -21,14 +21,16 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatSidenavModule} from '@angular/material/sidenav'; 
 import {MatListModule} from '@angular/material/list';
 import { CreateQuestionComponent } from './create-question/create-question.component';
-import {MatMenuModule} from '@angular/material/menu'; 
+import {MatMenuModule} from '@angular/material/menu';
+import { RegisterComponent } from './register/register.component'; 
 @NgModule({
   declarations: [
     AppComponent,
     QuestionsComponent,
     LoginComponent,
     MenuComponent,
-    CreateQuestionComponent
+    CreateQuestionComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

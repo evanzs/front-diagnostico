@@ -24,4 +24,8 @@ export class LoginComponent {
 
     this.router.navigate(['/questions'])
   }
+
+  register(){
+    this.router.navigate(['/register'])
+  }
 }
