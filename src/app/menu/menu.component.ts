@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { UserApp } from '../models/userApp';
 
 @Component({
   selector: 'app-menu',
@@ -7,6 +8,8 @@ import { Component } from '@angular/core';
 })
 export class MenuComponent {
   isMenuOpen= false;
+
+  @Input() user!:UserApp;
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
   }
