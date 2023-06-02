@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Section } from '../models/section';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-questions',
@@ -8,8 +9,13 @@ import { Section } from '../models/section';
 })
 
 
-export class QuestionsComponent{
-  constructor(){}
+export class QuestionsComponent implements OnInit{
+
+  teste:any = []
+  constructor(private readonly _authService:AuthService){}
+  ngOnInit(): void {
+    this.teste = this._authService.getUser()
+  }
   panelOpenState = false;
   sections: Section[] = [{
 
