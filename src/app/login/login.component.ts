@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LoginService } from './login.service';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -9,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,private readonly _service:LoginService, private readonly _authService:AuthService) { }
 
   formLogin = new FormGroup({
     password: new FormControl('',Validators.required),
@@ -21,8 +23,14 @@ export class LoginComponent {
  
     if(this.formLogin.invalid)
       return;
+    const {email,password} =this.formLogin.value;
+    console.log(email,password)
+    this._service.logIn({email,password}).subscribe({ next: (res)=>{  
+      this._authService.setToken(res.access_token)
+      this.router.navigate(['/questions'])
+    }})
+  
 
-    this.router.navigate(['/questions'])
   }
 
   register(){
