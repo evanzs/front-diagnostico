@@ -1,3 +1,4 @@
+import { UserApp } from './../models/userApp';
 import { Component, OnInit } from '@angular/core';
 import { Section } from '../models/section';
 import { AuthService } from '../auth.service';
@@ -11,10 +12,10 @@ import { AuthService } from '../auth.service';
 
 export class QuestionsComponent implements OnInit{
 
-  teste:any = []
+  user!:UserApp;
   constructor(private readonly _authService:AuthService){}
   ngOnInit(): void {
-    this.teste = this._authService.getUser()
+    this._authService.emitirUserApp.subscribe( user => this.user = user)
   }
   panelOpenState = false;
   sections: Section[] = [{
