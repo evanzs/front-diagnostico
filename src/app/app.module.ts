@@ -1,6 +1,6 @@
+import { JwtHelperService, JWT_OPTIONS  } from '@auth0/angular-jwt';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -23,6 +23,12 @@ import {MatListModule} from '@angular/material/list';
 import { CreateQuestionComponent } from './create-question/create-question.component';
 import {MatMenuModule} from '@angular/material/menu';
 import { RegisterComponent } from './register/register.component'; 
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HomeComponent } from './home/home.component';
+import {MatGridListModule} from '@angular/material/grid-list'; 
+import { ProjectService } from './project.service';
+import { AuthService } from './auth.service';
+import { AuthGuard } from './guards/auth.guard.';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,7 +36,8 @@ import { RegisterComponent } from './register/register.component';
     LoginComponent,
     MenuComponent,
     CreateQuestionComponent,
-    RegisterComponent
+    RegisterComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -48,10 +55,13 @@ import { RegisterComponent } from './register/register.component';
     MatIconModule,
     MatSidenavModule,
     MatListModule,
-    MatMenuModule
+    MatMenuModule,
+    HttpClientModule,
+    MatGridListModule    
       
   ],
-  providers: [],
+  providers: [        { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
+    JwtHelperService,ProjectService,AuthService,AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
