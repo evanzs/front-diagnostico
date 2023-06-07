@@ -1,0 +1,48 @@
+<mat-accordion >
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+            Teste para diagnóstico.
+        </mat-panel-title>
+        <mat-panel-description>
+    descricao basica - titulo
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <p>    descricao basica</p>
+    </mat-expansion-panel>
+    <mat-expansion-panel (opened)="panelOpenState = true"
+                         (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+         section.name
+        </mat-panel-title>
+        <mat-panel-description>
+        section.description
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+    <form class="example-form fs-6">
+        <div class="row m-3">     
+            <input type="text">
+            <button (click)="createNewProject()">Criar</button>
+        </div>  
+    </form>      
+    </mat-expansion-panel>    
+
+    <mat-expansion-panel (opened)="panelOpenState = true"
+                         (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+         section.name
+        </mat-panel-title>
+        <mat-panel-description>
+        section.description
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+        <div class="row m-3"  *ngFor="let project of projects">     
+            <div (click)="loadProjects(project.id)"> {{project.name}} - {{project.description}}
+            </div>
+        </div>  
+      
+    </mat-expansion-panel>    
+  </mat-accordion>
