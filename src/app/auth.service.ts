@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { UserApp } from './models/userApp';
 
@@ -9,10 +9,16 @@ export class AuthService {
   private tokenKey = 'jwt_token';
   private userKey = 'user';
 
-  userApp = new EventEmitter<UserApp>();
-constructor(private jwtHelper: JwtHelperService){}
+  emitirUserApp = new EventEmitter<UserApp>();
+  constructor(private jwtHelper: JwtHelperService){}
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
+  }
+
+  isTokenExpired():boolean{
+    const token = this.getToken();
+    const isTokenExpired =  this.jwtHelper.isTokenExpired(token)
+    return isTokenExpired
   }
 
   setToken(token: string): void {
@@ -23,19 +29,19 @@ constructor(private jwtHelper: JwtHelperService){}
     localStorage.removeItem(this.tokenKey);
   }
 
-  getUser():UserApp {
+  getUser() {
+    const genericUser ={email:'decodedToken.email',id:'decodedToken.id',projects:['projectIds'],userName:'username'}
     const token = this.getToken();
+
     if(!token)
-    return {email:'decodedToken.email',id:'decodedToken.id',projects:['projectIds'],userName:'username'}
+      return  this.emitirUserApp.emit(genericUser);
 
     const decodedToken = this.jwtHelper.decodeToken(token)
 
     if(decodedToken)
-        return {email:decodedToken.email,id:decodedToken.id,projects:decodedToken.projectIds,userName:decodedToken.username}
-    // const userJson = localStorage.getItem(this.userKey);
-    // return userJson ? JSON.parse(userJson) : null;
-    return {email:'decodedToken.email',id:'decodedToken.id',projects:['projectIds'],userName:'username'}
-
+      return  this.emitirUserApp.emit(genericUser);
+      
+    return this.emitirUserApp.emit({email:decodedToken.email,id:decodedToken.id,projects:decodedToken.projectIds,userName:decodedToken.username});
   }
 
   setUser(user: any): void {
