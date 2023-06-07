@@ -27,7 +27,8 @@ export class LoginComponent {
     console.log(email,password)
     this._service.logIn({email,password}).subscribe({ next: (res)=>{  
       this._authService.setToken(res.access_token)
-      this.router.navigate(['/questions'])
+      this._service.enableMenuBar()
+      this.router.navigate(['/home'])
     }})
   
 
