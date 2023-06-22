@@ -1,4 +1,4 @@
-import { Section } from './models/section';
+import { Principle } from './models/principle';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
@@ -9,9 +9,9 @@ export class AppService {
 
 constructor() { }
 
-  private emissor$ = new Subject<Section[]>();
+  private emissor$ = new Subject<Principle[]>();
 
-  emitValor(valor:Section[]){
+  emitValor(valor:Principle[]){
     console.log("valor",valor)
     this.emissor$.next(valor)
   }
