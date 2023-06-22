@@ -29,6 +29,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import { ProjectService } from './project.service';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './guards/auth.guard.';
+import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,7 +38,8 @@ import { AuthGuard } from './guards/auth.guard.';
     MenuComponent,
     CreateQuestionComponent,
     RegisterComponent,
-    HomeComponent
+    HomeComponent,
+    DynamicFormComponent
   ],
   imports: [
     BrowserModule,
