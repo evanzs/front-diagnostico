@@ -19,32 +19,35 @@ export class QuestionsComponent implements OnInit{
 
   user!:UserApp;
   id!:string;
+
+
   constructor(private readonly _authService:AuthService,
     private readonly _projectService:ProjectService,
-    private readonly _route:ActivatedRoute){}
+    private readonly _route:ActivatedRoute,
+    private readonly _router:Router){}
     project!:Project;
     principle!:Principle;
   ngOnInit(): void {
     this._authService.emitirUserApp.subscribe( user => this.user = user)
 
     this._route.params 
-    .subscribe(params => {
-      this.project = this._projectService.getEnvProject()
-      this.setPrinciple(params['id'])
-     
+    .subscribe({
+      next:(params) =>{
+        this.project = this._projectService.getEnvProject()
+
+        if(!this.project)
+          this._router.navigate(['/home'])
+          
+        this.setPrinciple(params['id'])     
+      }
     })
  
   }
   panelOpenState = false;
-  teste(teste:any){
-  
-    this.panelOpenState = false;
-  }
 
   setPrinciple(id:string){
     const result = this.project.principles.find( p => p._id === id)
     if(result)
-      this.principle =result
-      
+      this.principle =result      
   }
 }
