@@ -1,6 +1,7 @@
 export interface Question {
 
-    text: string;
-    rating: number;
-    description:string;  
+    _id:string;
+    ask: string;
+    rate: number;
+    tag:Array<string>;  
   }
