@@ -33,9 +33,12 @@ export class HomeComponent  implements OnInit{
     // Lógica para criar um novo projeto
   }
 
-  loadProjects(project:any): void {
+  loadProjects(project:Project): void {
     this._projectService.loadProject(project)
-    //this.router.navigate(['/questions'])
+    const id = project?.principles[0]?._id
+
+    if(id)
+      this.router.navigate(['/questions/'+id])
   }
 
   getProjects(){
