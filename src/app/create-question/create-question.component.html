@@ -1,5 +1,5 @@
 <div  class="d-flex flex-column p-2">
-  <form [formGroup]="sectionForm" (ngSubmit)="addSection()"  class="d-flex flex-column">
+  <form [formGroup]="principleForm" (ngSubmit)="addPrinciple()"  class="d-flex flex-column">
     <mat-form-field>
       <mat-label>Name</mat-label>
       <input matInput formControlName="name" required>
@@ -38,7 +38,7 @@
   </form>
 <div>
   <button mat-raised-button color="accent"  class="m-2" (click)="addQuestion()">Add Questão</button>
-  <button mat-raised-button color="primary" (click)="addSection()">Salvar</button>
+  <button mat-raised-button color="primary" (click)="addPrinciple()">Salvar</button>
 </div>
 
 </div>
