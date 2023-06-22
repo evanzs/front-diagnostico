@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class LoginService {
   private readonly URL = 'http://localhost:3000';
   emitEventoEnableMenuBar = new EventEmitter<boolean>();
-
+  emitEventoEnableMenuNav = new EventEmitter<boolean>();
   constructor(private http: HttpClient) { }
 
   logIn(data:any):Observable<any>{
@@ -21,5 +21,8 @@ export class LoginService {
 
   enableMenuBar(){
     this.emitEventoEnableMenuBar.emit(true)
+  }
+  enableMenuNav(){
+    this.emitEventoEnableMenuNav.emit(true)
   }
 }
