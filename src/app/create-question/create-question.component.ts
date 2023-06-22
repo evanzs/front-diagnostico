@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { Section } from '../models/section';
+import { Principle } from '../models/principle';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { AppService } from '../app.service';
 
@@ -112,30 +112,30 @@ export interface PeriodicElement {
   styleUrls: ['./create-question.component.css'],
 })
 export class CreateQuestionComponent {
-  sectionForm: FormGroup;
+  principleForm: FormGroup;
 
   constructor(private fb: FormBuilder,public appService:AppService) {
-    this.sectionForm = this.fb.group({
+    this.principleForm = this.fb.group({
       name: ['', Validators.required],
       description: [''],
       questions: this.fb.array([])
     });
     this.addQuestion()
   }
-  addSection(): void {
-    if (this.sectionForm.valid) {
+  addPrinciple(): void {
+    if (this.principleForm.valid) {
       // Processar os dados do formulário
-      console.log(this.sectionForm.value);
+      console.log(this.principleForm.value);
 
-      this.appService.emitValor(this.sectionForm.value)
-      this.sectionForm.reset();
+      this.appService.emitValor(this.principleForm.value)
+      this.principleForm.reset();
       this.questions.clear();
     }
     this.addQuestion()
   }
   
   get questions(): FormArray {
-    return this.sectionForm.get('questions') as FormArray;
+    return this.principleForm.get('questions') as FormArray;
   }
 
   removeQuestion(index: number): void {
