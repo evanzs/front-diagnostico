@@ -13,9 +13,12 @@ export class DynamicFormComponent implements OnInit {
 
   dynamicForm!: FormGroup;
   panelOpenState = false;
+
+  radioItems = ['0','1','2','3','4','5','Não sei']
   constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
+     
     this.dynamicForm = this.formBuilder.group({});
     this.project.principles[0].guidelines.forEach((guideline: any) => {
       guideline.questions.forEach((question: Question) => {
@@ -41,5 +44,9 @@ export class DynamicFormComponent implements OnInit {
       }
     }
     console.log(this.project.principles[0])
+  }
+
+  teste(item:any){
+    console.log(item)
   }
 }
