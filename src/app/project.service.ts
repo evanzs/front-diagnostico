@@ -1,35 +1,30 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { Project } from './models/project';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable()
 export class ProjectService {
 
 private readonly URL = 'http://localhost:3000';
-emitEventoProject = new EventEmitter<Project>();
-emitEventoEnableMenuNav = new EventEmitter<boolean>();
+
+private project!:Project;
+private selectedProject  = new Subject<Project>();
+
 constructor(private http: HttpClient) { }
 
 
-    loadProject(id:string){
-        this.getProject(id).subscribe({
-            next:(res)=>{
-                this.emitEventoProject.emit(res)
-               this.emitEventoEnableMenuNav.emit(true)
-            },
-            error:()=>{
-                this.emitEventoEnableMenuNav.emit(true)
-                console.log("projeto n encontrato")
-            }
-        })
+    loadProject(project:Project){
+        this.setProject(project) 
+        this.setEnvProject(project)      
     } 
+
 
     createNewProject(data:any){
         
         this.createProject(data).subscribe({
             next: (res) =>{
-                this.emitEventoProject.emit(res)
+                this.selectedProject =res;
             },
             error: () =>{
                 console.log("projeto n encontrato")
@@ -39,14 +34,26 @@ constructor(private http: HttpClient) { }
 
 
     }
-  
-    getProject(id:string):Observable<any>{
-        return this.http.get<any>(this.URL+"/project")       
+    setProject(project:Project){
+        
+        this.selectedProject.next(project);
+    }
+    getSelectedProject():Observable<Project> {
+        return this.selectedProject.asObservable();      
     }
   
+    getProjects():Observable<any>{
+        return this.http.get<any>(this.URL+"/project/")       
+    }
     createProject(data:any):Observable<any>{
         return this.http.post<any>(this.URL+"/project",data)       
     }
 
+    setEnvProject(project:Project):void{
+        this.project = project
+    }
 
+    getEnvProject():Project{
+        return this.project
+    }
 }
