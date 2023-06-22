@@ -39,10 +39,15 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
 
-        <div class="row m-3"  *ngFor="let project of projects">     
-            <div (click)="loadProjects(project.id)"> {{project.name}} - {{project.description}}
-            </div>
-        </div>  
+    <div *ngIf="projects$ | async as projects;">
+      <div class="row m-3"  *ngFor="let project of projects">     
+        <div (click)="loadProjects(project)"> {{project.name}} - {{project.description}}
+        </div>
+    </div>  
+    <ng-template *ngIf="!projects">
+      Carregando projetos..
+    </ng-template>
+</div>
       
     </mat-expansion-panel>    
   </mat-accordion>
