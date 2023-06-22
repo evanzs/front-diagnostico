@@ -28,7 +28,7 @@ export class AuthService {
   removeToken(): void {
     localStorage.removeItem(this.tokenKey);
   }
-
+  
   getUser() {
     const genericUser ={email:'decodedToken.email',id:'decodedToken.id',projects:['projectIds'],userName:'username'}
     const token = this.getToken();
