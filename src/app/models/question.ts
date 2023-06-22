@@ -2,6 +2,6 @@ export interface Question {
 
     _id:string;
     ask: string;
-    rate: number;
+    rate: string;
     tag:Array<string>;  
   }
