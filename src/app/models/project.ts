@@ -1,7 +1,9 @@
+import { Principle } from "./principle"
+
 export interface Project {
   name:string,
-  id:string,
+  _id:string,
   description:string
-  questions:Array<string>
+  principles:Array<Principle>
   answers:Array<string>
 }
