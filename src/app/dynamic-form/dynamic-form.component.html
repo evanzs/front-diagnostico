@@ -1,0 +1,45 @@
+<!-- <form [formGroup]="dynamicForm">
+    <ng-container *ngFor="let guideline of project.principles[0].guidelines">
+      <h3>{{ guideline.name }}</h3>
+      <div *ngFor="let question of guideline.questions">
+        <label>{{ question.ask }}</label>
+        <input type="text" [formControlName]="question._id" />
+      </div>
+    </ng-container>
+    <button type="button" (click)="saveForm()">Salvar</button>
+  </form>
+ -->
+
+
+
+  <form [formGroup]="dynamicForm">
+  <mat-expansion-panel *ngFor="let guideline of project.principles[0].guidelines"
+  (opened)="panelOpenState = true"
+  (closed)="panelOpenState = false">
+<mat-expansion-panel-header>
+<mat-panel-title>
+{{guideline.name}}
+</mat-panel-title>
+<mat-panel-description>
+{{guideline.description}}
+</mat-panel-description>
+</mat-expansion-panel-header >
+
+<div class="row m-3" *ngFor="let question of guideline.questions">  
+
+   
+<p>{{question.ask}}</p>
+<ngb-rating  [formControlName]="question._id" [max]="5" [(rate)]="question.rate"></ngb-rating>     
+
+<mat-divider  class="m-3"></mat-divider>
+       
+
+
+</div>  
+<mat-action-row>
+
+  <button type="button" mat-button color="primary" >Salvar</button>
+</mat-action-row>
+ 
+</mat-expansion-panel>    
+</form>
