@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { UserApp } from '../models/userApp';
 import { AuthService } from '../auth.service';
+import { ProjectService } from '../project.service';
+import { Project } from '../models/project';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -11,15 +15,17 @@ export class HomeComponent  implements OnInit{
   
   user!:UserApp;
   panelOpenState = false;
-  projects = [{ id:'i9129383',name:"Projeto 1", description:"descricao projeto 1"},
-  { id:'29398123',name:"Projeto 2", description:"descricao projeto 2"}]
+  projects$!: Observable<Project[]>;
 
 
-  constructor(private readonly _authService:AuthService){}
+  constructor(private readonly _authService:AuthService,
+    private readonly _projectService:ProjectService,
+    private router: Router){}
   ngOnInit(): void {
     this._authService.emitirUserApp.subscribe(
       user => this.user = user
     )
+    this. getProjects()
   }
 
   createNewProject(): void {
@@ -27,8 +33,13 @@ export class HomeComponent  implements OnInit{
     // Lógica para criar um novo projeto
   }
 
-  loadProjects(id:string): void {
-    console.log('Carregar novo projeto',id);
-    // Lógica para carregar um novo projeto
+  loadProjects(project:any): void {
+    this._projectService.loadProject(project)
+    //this.router.navigate(['/questions'])
+  }
+
+  getProjects(){
+    this.projects$ = this._projectService.getProjects()
+
   }
 }
