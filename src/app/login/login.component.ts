@@ -24,9 +24,9 @@ export class LoginComponent {
     if(this.formLogin.invalid)
       return;
     const {email,password} =this.formLogin.value;
-    console.log(email,password)
-    this._service.logIn({email,password}).subscribe({ next: (res)=>{  
+      this._service.logIn({email,password}).subscribe({ next: (res)=>{  
       this._authService.setToken(res.access_token)
+      this._service.enableMenuNav()
       this._service.enableMenuBar()
       this.router.navigate(['/home'])
     }})
