@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import html2canvas from 'html2canvas';
 import { ChartJSNodeCanvas } from 'chartjs-node-canvas';
+import { radarChartOptions } from '../models/radarOptions';
 @Component({
   selector: 'app-result',
   templateUrl: './result.component.html',
@@ -9,21 +10,30 @@ import { ChartJSNodeCanvas } from 'chartjs-node-canvas';
 })
 export class ResultComponent {
  // Radar
- public radarChartOptions: ChartConfiguration['options'] = {
-  responsive: true,
- 
-  }
-  
+ public radarChartOptions: ChartConfiguration['options'] = radarChartOptions;
 
-public radarChartLabels: string[] = [ 'Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running' ];
+public radarChartLabels: string[] = 
+['Conteúdo e fonte alimentar culturalmente apropriados',
+'Maximização da utilização de alimentos',
+'Respeito aos direitos',
+'Respeito aos limites biofísicos',
+'Sinergia ecológica',
+'Tecnologias apropriadas a escala, cultura e economia'];
+
 
 public radarChartData: ChartData<'radar'> = {
   labels: this.radarChartLabels,
-
+  
   datasets: [
-    { data: [ 65, 59, 90, 81, 56, 55, 40 ], label: 'Series A' },
-    { data: [ 28, 48, 40, 19, 96, 27, 100 ], label: 'Series B' }
-  ]
+    { data: [1.74025974,
+      1.448148148,
+      0.3555555556,
+      1.144671202,
+      1.536111111,
+      1.766666667],
+    label:'CONGRUÊNCIA'},
+  ],
+
   
 };
 public radarChartType: ChartType = 'radar';
