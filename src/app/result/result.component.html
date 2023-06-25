@@ -1,11 +1,12 @@
-<div class="container">
+<mat-card>
+  <mat-card-content>
+    <canvas #chart id="chart" baseChart class="chart"
+    [data]="radarChartData"
+    [options]="radarChartOptions"
+    [type]="radarChartType">
+  </canvas>
+  </mat-card-content>
+</mat-card>
 
-  <canvas #chart id="chart" baseChart class="chart"
-  [data]="radarChartData"
-  [options]="radarChartOptions"
-  [type]="radarChartType">
-</canvas>
-
-</div>
 
 <button type="button" (click)="export()">Export</button>
