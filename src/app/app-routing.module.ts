@@ -7,22 +7,18 @@ import { CreateQuestionComponent } from './create-question/create-question.compo
 import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './guards/auth.guard.';
+import { ResultComponent } from './result/result.component';
 
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  {
-    path: '',
-    component: MenuComponent,
-    children: [
-      { path: 'login', component: LoginComponent },
-      { path: 'home', component: HomeComponent,canActivate:[AuthGuard] },
-      { path: 'create-question', component: CreateQuestionComponent,canActivate:[AuthGuard] },
-      { path: 'questions/:id', component: QuestionsComponent,canActivate:[AuthGuard] },
-      { path: 'register', component: RegisterComponent,canActivate:[AuthGuard] }
-    ]
-  }
-  ];
+  { path: 'login', component: LoginComponent },
+  { path: 'home', component: HomeComponent,canActivate:[AuthGuard] },
+  { path: 'create-question', component: CreateQuestionComponent,canActivate:[AuthGuard] },
+  { path: 'questions/:id', component: QuestionsComponent,canActivate:[AuthGuard] },
+  { path: 'register', component: RegisterComponent,canActivate:[AuthGuard] },  
+  { path: 'result', component: ResultComponent,canActivate:[AuthGuard] }  
+];
 
 @NgModule({
     imports:[RouterModule.forRoot(routes)],
