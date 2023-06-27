@@ -22,18 +22,11 @@
          <div *ngFor="let principle of project.principles">
           <a mat-list-item (click)="openPrinciple(principle._id) ">{{principle.name}}</a>
          </div>       
-          </mat-expansion-panel>
-          <mat-expansion-panel *ngIf="project$  | async as project">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-               Resultado
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-         <div *ngFor="let principle of project.principles">
-          <a mat-list-item (click)="openResult(principle._id) ">{{principle.name}}</a>
-         </div>       
-          </mat-expansion-panel>
-        </mat-accordion>
+        <mat-expansion-panel-header>
+        </mat-expansion-panel>
+
+         <a mat-list-item routerLink="/result">Resultado</a>  
+   
         <a mat-list-item routerLink="/login">Sair</a>        
       </mat-nav-list>
     </mat-sidenav>
