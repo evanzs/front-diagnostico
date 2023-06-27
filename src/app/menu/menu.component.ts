@@ -27,7 +27,7 @@ export class MenuComponent implements OnInit{
   }
 
   project$!:Observable<Project>;
-  isMenuOpen= false;
+  isMenuOpen= true;
   enableMenuBar = false;
   enableMenuNav = false;
   ngOnInit(): void {
@@ -47,5 +47,10 @@ export class MenuComponent implements OnInit{
 
   openPrinciple(id:string){
     this._router.navigate(['/questions',id])
+  }
+
+  openResult(id:string){
+    this._router.navigate(['/result'])
+
   }
 }
