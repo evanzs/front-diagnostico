@@ -26,7 +26,8 @@ export class QuestionsComponent implements OnInit{
     private readonly _route:ActivatedRoute,
     private readonly _router:Router){}
     project!:Project;
-    principle!:Principle;
+    indexPrinciple:number = 0;
+
   ngOnInit(): void {
     this._authService.emitirUserApp.subscribe( user => this.user = user)
 
@@ -38,16 +39,21 @@ export class QuestionsComponent implements OnInit{
         if(!this.project)
           this._router.navigate(['/home'])
           
-        this.setPrinciple(params['id'])     
+        this.findIndexPrinciple(params['id'])     
       }
     })
  
   }
   panelOpenState = false;
 
-  setPrinciple(id:string){
-    const result = this.project.principles.find( p => p._id === id)
+  findIndexPrinciple(id:string){
+
+    const result = this.project.principles.findIndex( p => p._id === id)
+
+
     if(result)
-      this.principle =result      
+      this.indexPrinciple =result      
+
+
   }
 }
