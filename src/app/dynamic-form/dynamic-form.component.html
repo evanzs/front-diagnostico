@@ -12,12 +12,12 @@
 
  <mat-card>
   <mat-card-header>
-    <mat-card-title>{{project.principles[0].name}}</mat-card-title>
+    <mat-card-title>{{project.principles[indexPrinciple].name}}</mat-card-title>
     <mat-card-subtitle>{{project.principles[0].description}}</mat-card-subtitle>
   </mat-card-header>
 </mat-card>
   <form [formGroup]="dynamicForm">
-  <mat-expansion-panel *ngFor="let guideline of project.principles[0].guidelines"
+  <mat-expansion-panel *ngFor="let guideline of project.principles[indexPrinciple].guidelines"
   (opened)="panelOpenState = true"
   (closed)="panelOpenState = false">
 <mat-expansion-panel-header>
