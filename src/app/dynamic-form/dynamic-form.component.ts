@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Project } from '../models/project';
 import { Question } from '../models/question';
@@ -8,9 +8,9 @@ import { Question } from '../models/question';
   templateUrl: './dynamic-form.component.html',
   styleUrls: ['./dynamic-form.component.css']
 })
-export class DynamicFormComponent implements OnInit {
+export class DynamicFormComponent implements OnInit,OnChanges {
   @Input() project!: Project; // Passar o projeto como entrada para o componente
-
+  @Input() indexPrinciple = 0
   dynamicForm!: FormGroup;
   panelOpenState = false;
 
@@ -18,15 +18,24 @@ export class DynamicFormComponent implements OnInit {
   constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
-     
+    this.buildDynamicForm();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['indexPrinciple'] && !changes['indexPrinciple'].firstChange) {
+      this.buildDynamicForm();
+    }
+  }
+
+  buildDynamicForm() {
     this.dynamicForm = this.formBuilder.group({});
-    this.project.principles[0].guidelines.forEach((guideline: any) => {
+    const guidelines = this.project.principles[this.indexPrinciple].guidelines;
+    guidelines.forEach((guideline: any) => {
       guideline.questions.forEach((question: Question) => {
         this.dynamicForm.addControl(question._id, this.formBuilder.control(question.rate));
       });
     });
   }
-
   saveForm() {
 
     const formData = this.dynamicForm.value;
@@ -43,7 +52,7 @@ export class DynamicFormComponent implements OnInit {
         });
       }
     }
-    console.log(this.project.principles[0])
+    console.log(this.project.principles[this.indexPrinciple])
   }
 
   teste(item:any){
