@@ -16,6 +16,10 @@ export class LoginService {
     return this.http.post<any>(this.URL+"/login",data)
   }
 
+  createUser(data:any):Observable<any>{
+    return this.http.post<any>(this.URL+"/login/create",data)
+  }
+
   user():Observable<any>{
     return this.http.get<any>(this.URL+"/login")
   }

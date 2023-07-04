@@ -8,6 +8,7 @@ import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './guards/auth.guard.';
 import { ResultComponent } from './result/result.component';
+import { ResponsesComponent } from './responses/responses.component';
 
 
 const routes: Routes = [
@@ -16,8 +17,9 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent,canActivate:[AuthGuard] },
   { path: 'create-question', component: CreateQuestionComponent,canActivate:[AuthGuard] },
   { path: 'questions/:id', component: QuestionsComponent,canActivate:[AuthGuard] },
-  { path: 'register', component: RegisterComponent,canActivate:[AuthGuard] },  
-  { path: 'result', component: ResultComponent,canActivate:[AuthGuard] }  
+  { path: 'register', component: RegisterComponent },  
+  { path: 'result', component: ResultComponent,canActivate:[AuthGuard] },  
+  { path: 'responses/:principleId', component: ResponsesComponent,canActivate:[AuthGuard] }  
 ];
 
 @NgModule({

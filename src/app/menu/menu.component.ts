@@ -49,6 +49,10 @@ export class MenuComponent implements OnInit{
     this._router.navigate(['/questions',id])
   }
 
+  openPrincipleResponse(id:string){
+    this._router.navigate(['/responses',id])
+  }
+
   openResult(id:string){
     this._router.navigate(['/result'])
 

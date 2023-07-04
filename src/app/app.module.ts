@@ -33,6 +33,10 @@ import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
 import { NgChartsModule } from 'ng2-charts';
 import { ResultComponent } from './result/result.component';
 import {MatRadioModule} from '@angular/material/radio'; 
+import {MatTableModule} from '@angular/material/table';
+import { ResponsesComponent } from './responses/responses.component';
+import {MatTooltipModule} from '@angular/material/tooltip'; 
+import {MatSnackBarModule} from '@angular/material/snack-bar'; 
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +47,8 @@ import {MatRadioModule} from '@angular/material/radio';
     RegisterComponent,
     HomeComponent,
     DynamicFormComponent,
-    ResultComponent
+    ResultComponent,
+    ResponsesComponent
   ],
   imports: [
     BrowserModule,
@@ -65,7 +70,10 @@ import {MatRadioModule} from '@angular/material/radio';
     HttpClientModule,
     MatGridListModule,
     NgChartsModule ,   
-    MatRadioModule
+    MatRadioModule,
+    MatTableModule,
+    MatTooltipModule,
+    MatSnackBarModule
       
   ],
   providers: [        { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },

@@ -1,53 +1,44 @@
-<mat-accordion >
-    <mat-expansion-panel hideToggle>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-            Teste para diagnóstico.
-        </mat-panel-title>
-        <mat-panel-description>
-    descricao basica - titulo
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <p>    descricao basica</p>
-    </mat-expansion-panel>
-    <mat-expansion-panel (opened)="panelOpenState = true"
-                         (closed)="panelOpenState = false">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-         section.name
-        </mat-panel-title>
-        <mat-panel-description>
-        section.description
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-    <form class="example-form fs-6">
-        <div class="row m-3">     
-            <input type="text">
-            <button (click)="createNewProject()">Criar</button>
-        </div>  
-    </form>      
-    </mat-expansion-panel>    
+<div *ngIf="projects$ | async as projects">
+  <table mat-table [dataSource]="projects" class="mat-elevation-z8">
 
-    <mat-expansion-panel (opened)="panelOpenState = true"
-                         (closed)="panelOpenState = false">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-         section.name
-        </mat-panel-title>
-        <mat-panel-description>
-        section.description
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-
-    <div *ngIf="projects$ | async as projects;">
-      <div class="row m-3"  *ngFor="let project of projects">     
-        <div (click)="loadProjects(project)"> {{project.name}} - {{project.description}}
-        </div>
-    </div>  
-    <ng-template *ngIf="!projects">
-      Carregando projetos..
-    </ng-template>
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+  
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Nome </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+  
+    <!-- Weight Column -->
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef> Descrição </th>
+      <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+    </ng-container>
+  
+    <!-- Symbol Column
+    <ng-container matColumnDef="symbol">
+      <th mat-header-cell *matHeaderCellDef> Symbol </th>
+      <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+    </ng-container> -->
+    
+    <ng-container matColumnDef="acoes">
+      <th mat-header-cell *matHeaderCellDef>Ações</th>
+      <td mat-cell *matCellDef="let projeto">
+        <button mat-icon-button matTooltip="editar" color="primary" (click)="loadProjects(projeto)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button matTooltip="deletar" color="warn" (click)="deleteProject(projeto)">
+          <mat-icon>delete</mat-icon>
+        </button>
+        <button mat-icon-button matTooltip="compartilhar" color="warn" (click)="shareProject()">
+          <mat-icon>share</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+    
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  
 </div>
-      
-    </mat-expansion-panel>    
-  </mat-accordion>

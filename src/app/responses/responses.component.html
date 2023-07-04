@@ -1,0 +1,65 @@
+<div *ngIf="project">
+     <div *ngFor="let guideline of project.principles[indexPrinciple].guidelines">
+    
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+            {{ guideline.name}}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+    
+          <div *ngIf="guideline.responses.length > 0">
+            <table mat-table [dataSource]="guideline.responses" class="mat-elevation-z8">
+
+              <!--- Note that these columns can be defined in any order.
+                    The actual rendered columns are set as a property on the row definition" -->
+            
+              <!-- Name Column -->
+              <ng-container matColumnDef="_id">
+                <th mat-header-cell *matHeaderCellDef> Questão </th>
+                <td mat-cell *matCellDef="let element"> Resposta </td>
+              </ng-container>
+            
+              <!-- Weight Column -->
+              <ng-container matColumnDef="data">
+                <th mat-header-cell *matHeaderCellDef>  </th>
+                <td mat-cell *matCellDef="let element"> data</td>
+              </ng-container>
+            
+              <!-- Symbol Column
+              <ng-container matColumnDef="symbol">
+                <th mat-header-cell *matHeaderCellDef> Symbol </th>
+                <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+              </ng-container> -->
+              
+              <ng-container matColumnDef="acoes">
+                <th mat-header-cell *matHeaderCellDef>Ações</th>
+                <td mat-cell *matCellDef="let projeto">
+                  <button mat-icon-button color="primary">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button mat-icon-button color="warn">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+              
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          </div>
+          <div *ngIf="guideline.responses.length == 0">
+            <p>Nenhuma pergunta foi respondida.</p>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    
+
+    
+    
+    
+      
+     </div>
+    
+  </div>

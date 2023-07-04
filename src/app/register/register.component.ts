@@ -1,5 +1,8 @@
+import { Router } from '@angular/router';
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { LoginService } from '../login/login.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-register',
@@ -9,7 +12,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class RegisterComponent {
   registerForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private _snackBar: MatSnackBar,private router:Router,  private formBuilder: FormBuilder,private _loginService:LoginService) {
     this.registerForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       name: ['', Validators.required],
@@ -21,8 +24,16 @@ export class RegisterComponent {
 
   onSubmit() {
     if (this.registerForm.valid) {
-      console.log(this.registerForm.value);
-      // Aqui você pode adicionar a lógica para enviar os dados do formulário para o servidor
+
+      this._loginService.createUser(this.registerForm.value).subscribe({
+      next:()=>{
+        this.router.navigate(['login']);
+      },
+      error:()=>{
+        this._snackBar.open("Não foi possivel realizar o registro.", 'fechar');
+      }
+    })
+      // Aqui você pode adicionar a  para enviar os dados do formulário para o servidor
     }
   }
 }
