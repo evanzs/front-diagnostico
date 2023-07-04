@@ -1,6 +1,6 @@
 export const environment = {
     production: true,
-    apiUrl: 'http://api-diagnostico-production.up.railway.app',
+    apiUrl: 'https://api-diagnostico-yprmvjwzqq-uc.a.run.app',
     // Adicione outras variáveis de ambiente aqui
   };
   
