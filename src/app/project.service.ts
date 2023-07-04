@@ -2,11 +2,12 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { Project } from './models/project';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class ProjectService {
 
-private readonly URL = 'http://localhost:3000';
+private readonly URL = environment.apiUrl
 
 private project!:Project;
 private selectedProject  = new Subject<Project>();
