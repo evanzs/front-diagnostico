@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
-import html2canvas from 'html2canvas';
-import { ChartJSNodeCanvas } from 'chartjs-node-canvas';
+
 import { radarChartOptions } from '../models/radarOptions';
 @Component({
   selector: 'app-result',
