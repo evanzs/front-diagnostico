@@ -30,6 +30,9 @@ import { ProjectService } from './project.service';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './guards/auth.guard.';
 import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
+import { NgChartsModule } from 'ng2-charts';
+import { ResultComponent } from './result/result.component';
+import {MatRadioModule} from '@angular/material/radio'; 
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +42,8 @@ import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
     CreateQuestionComponent,
     RegisterComponent,
     HomeComponent,
-    DynamicFormComponent
+    DynamicFormComponent,
+    ResultComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +63,9 @@ import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
     MatListModule,
     MatMenuModule,
     HttpClientModule,
-    MatGridListModule    
+    MatGridListModule,
+    NgChartsModule ,   
+    MatRadioModule
       
   ],
   providers: [        { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
