@@ -19,7 +19,7 @@ const routes: Routes = [
   { path: 'questions/:id', component: QuestionsComponent,canActivate:[AuthGuard] },
   { path: 'register', component: RegisterComponent },  
   { path: 'result', component: ResultComponent,canActivate:[AuthGuard] },  
-  { path: 'responses/:principleId', component: ResponsesComponent,canActivate:[AuthGuard] }  
+  { path: 'responses', component: ResponsesComponent,canActivate:[AuthGuard] }  
 ];
 
 @NgModule({
