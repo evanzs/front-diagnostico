@@ -18,23 +18,8 @@ constructor(private http: HttpClient) { }
     loadProject(project:Project){
         this.setProject(project) 
         this.setEnvProject(project)      
-    } 
-
-
-    createNewProject(data:any){
-        
-        this.createProject(data).subscribe({
-            next: (res) =>{
-                this.selectedProject =res;
-            },
-            error: () =>{
-                console.log("projeto n encontrato")
-            }
-
-        })
-
-
     }
+
     setProject(project:Project){
         
         this.selectedProject.next(project);
@@ -43,11 +28,15 @@ constructor(private http: HttpClient) { }
         return this.selectedProject.asObservable();      
     }
   
-    getProjects():Observable<any>{
-        return this.http.get<any>(this.URL+"/project/")       
+    getProjects(userId:string):Observable<any>{
+        return this.http.get<any>(this.URL+"/project/user/"+userId)       
     }
-    createProject(data:any):Observable<any>{
-        return this.http.post<any>(this.URL+"/project",data)       
+    createProject(userId:string,data:any):Observable<any>{
+        return this.http.post<any>(this.URL+"/project/"+userId,data)       
+    }
+
+    updateProject(projectId:string,data:any):Observable<any>{
+        return this.http.patch<any>(this.URL+"/project/"+projectId,data)       
     }
 
     setEnvProject(project:Project):void{
@@ -56,5 +45,9 @@ constructor(private http: HttpClient) { }
 
     getEnvProject():Project{
         return this.project
+    }
+
+    deleteProject(id:string):Observable<any>{        
+        return this.http.delete<any>(this.URL+"/project/"+id)   
     }
 }
