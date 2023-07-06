@@ -29,7 +29,7 @@ export class QuestionsComponent implements OnInit{
     indexPrinciple:number = 0;
 
   ngOnInit(): void {
-    this._authService.emitirUserApp.subscribe( user => this.user = user)
+    this._authService.getEmitirUserApp().subscribe( (user) => {this.user = user})
 
     this._route.params 
     .subscribe({
