@@ -19,10 +19,14 @@
         </form>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-raised-button color="accent" [disabled]="formLogin.invalid" (click)="submitLogin()">ENTRAR</button>
+        <button mat-raised-button color="accent" [disabled]="formLogin.invalid" (click)="submitLogin()">Entrar</button>
       </mat-card-actions>
-<div class="row my-4" (click)="register()">
-  <button mat-button (click)="register()" color="primary">Registrar-se</button>
+      <div class="row my-4">
+        <button mat-raised-button color="primary" (click)="openDialog()">Responder</button>
+      
+      </div>
+<div class="row my-4">
+  <button mat-button (click)="register()" color="primary">Registrar</button>
 
 </div>
     </mat-card>
