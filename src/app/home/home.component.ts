@@ -5,6 +5,10 @@ import { ProjectService } from '../project.service';
 import { Project } from '../models/project';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { CreateProjectComponent } from '../create-project/create-project.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 export interface PeriodicElement {
   name: string;
@@ -37,17 +41,18 @@ export class HomeComponent  implements OnInit{
   panelOpenState = false;
   projects$!: Observable<Project[]>;
 
-  displayedColumns: string[] = ['name', 'description','acoes'];
+  displayedColumns: string[] = ['name', 'description','city','createdAt','updatedAt','acoes'];
   dataSource = []
 
   constructor(private readonly _authService:AuthService,
     private readonly _projectService:ProjectService,
-    private router: Router){}
+    private router: Router,
+    public dialog: MatDialog,
+    private _snackBar: MatSnackBar){}
+
   ngOnInit(): void {
-    this._authService.emitirUserApp.subscribe(
-      user => this.user = user
-    )
-    this. getProjects()
+    this.user = this._authService.getUser();     
+    this.getProjects(this.user.id)  
   }
 
   createNewProject(): void {
@@ -63,19 +68,44 @@ export class HomeComponent  implements OnInit{
       this.router.navigate(['/questions/'+id])
   }
 
-  getProjects(){
-    this.projects$ = this._projectService.getProjects()
-    
+  getProjects(userId:string):Observable<Project>{
+   return this.projects$ = this._projectService.getProjects(userId)    
   }
 
-  deleteProject(id:string){
+  deleteProject(project:Project){
+    const id = project?._id
 
-    // this._projectService.deleteProjectById(id)
+    const dialogRef = this.dialog.open(ConfirmDialogComponent)
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+
+        this._projectService.deleteProject(id).subscribe((res)=>{
+          this.getProjects(this.user.id) 
+        })
+      }
+      return;
+    });
   }
 
   shareProject(){
-    
+    const data = {
+      text:"AS9312ajeia12/839$511",
+      title:"Chave do Projeto"
+    }
+    const dialogRef = this.dialog.open(ConfirmDialogComponent,{data})
+  
   }
 
+
+  openDialog(project:Project | null): void {
+    const dialogRef = this.dialog.open(CreateProjectComponent,{
+      data:{project}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+        if(result){
+          this.getProjects(this.user.id)
+        }
+    });
+  }
 
 }
