@@ -21,35 +21,18 @@ export class ResponsesComponent implements OnInit {
     project!:Project;
     indexPrinciple:number = 0;
 
-  displayedColumns: string[] = ['_id', 'data','acoes'];
+  displayedColumns: string[] = ['email', 'createdAt','acoes'];
+  data =[
+   { email:"evandro@com.br",createdAt:"2022-02-05"},
+   { email:"evandro@com.br",createdAt:"2022-02-15"},
+   { email:"evandro@com.br",createdAt:"2022-02-08"},
+   { email:"Resposta Anonima",createdAt:"2022-02-08"},
+  ]
   ngOnInit(): void {
 
-    this._route.params 
-    .subscribe({
-      next:(params) =>{
-        this.project = this._projectService.getEnvProject()
-
-        if(!this.project)
-          this._router.navigate(['/home'])
-          
-        this.findIndexPrinciple(params['principleId'])     
-      }
-    })
- 
+    
   }
-  panelOpenState = false;
-
-  findIndexPrinciple(id:string){
-
-    const result = this.project.principles.findIndex( p => p._id === id)
-
-    console.log("aaaaaaa",result)
-    if(result)
-      this.indexPrinciple =result      
-
-
-  }
-
+  
   deleteResponse(project:Project):void{}
   editResponse(project:Project):void {
 
