@@ -3,7 +3,7 @@
       <mat-icon>menu</mat-icon>
     </button>
     <span class="spacer"></span>
-  
+    {{user.userName}}
     <button mat-icon-button>  
       <mat-icon>account_circle</mat-icon>
     </button>  
@@ -25,18 +25,7 @@
            </div>
             </mat-expansion-panel>
           </mat-accordion>
-          <mat-accordion>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                 Respostas
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-           <div *ngFor="let principle of project.principles">
-            <a mat-list-item (click)="openPrincipleResponse(principle._id) ">{{principle.name}}</a>
-           </div>
-            </mat-expansion-panel>
-          </mat-accordion>
+          <a mat-list-item routerLink="/responses">Respostas</a>
         </div>
         
         <a mat-list-item routerLink="/result">Resultado</a>

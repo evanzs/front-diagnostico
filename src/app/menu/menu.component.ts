@@ -32,7 +32,8 @@ export class MenuComponent implements OnInit{
   enableMenuNav = false;
   ngOnInit(): void {
      this.project$ = this._projectService.getSelectedProject();
-     this._authService.emitirUserApp.subscribe( (user) => this.user = user)
+     this.user = this._authService.getUser();
+
 
      this._loginService.emitEventoEnableMenuBar.subscribe( (enableMenuBar) => this.enableMenuBar = enableMenuBar)
      this._loginService.emitEventoEnableMenuNav.subscribe( (enableMenuNav) => this.enableMenuNav = enableMenuNav)
