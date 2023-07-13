@@ -16,18 +16,19 @@ export class ConfirmDialogComponent implements OnInit{
     @Inject(MAT_DIALOG_DATA) public data: GenericDialog
     ){}
 
-  title = "Confirmação";
-  text = "Deseja deletar esse projeto?"
 
+  dialogStatus ={ title:"Confirmação",text:"Deseja deletar esse projeto?",btnVisible:true,btnText:"Confirmar"}
   ngOnInit(): void {
     this.buildDialog()
   }
   
   buildDialog(){
-    const {title,text} = this.data;
+    const {title,text,btnText,btnVisible} = this.data;
     if(title && text){
-      this.title = title;
-      this.text = text;
+      this.dialogStatus.title = title;
+      this.dialogStatus.text = text;
+      this.dialogStatus.btnText = btnText;
+      this.dialogStatus.btnVisible = btnVisible;
     }
   }
 }

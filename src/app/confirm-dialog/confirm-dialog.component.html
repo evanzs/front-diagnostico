@@ -1,8 +1,9 @@
-<h2 mat-dialog-title>{{title}}</h2>
+<h2 mat-dialog-title>{{ dialogStatus.title}}</h2>
 <mat-dialog-content>
-  <p>{{text}}</p>
+  <p>{{dialogStatus.text}}</p>
 </mat-dialog-content>
 <mat-dialog-actions class="justify-content-center">
-  <button mat-button color="primary" [mat-dialog-close]="true" cdkFocusInitial >Confirmar</button>
+  <button mat-button color="primary"  [mat-dialog-close]="true" cdkFocusInitial
+  *ngIf="dialogStatus.btnVisible" >{{dialogStatus.btnText}}</button>
   <button mat-button color="warn" [mat-dialog-close]="false">Fechar</button>
 </mat-dialog-actions>
