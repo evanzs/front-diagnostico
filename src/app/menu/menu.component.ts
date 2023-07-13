@@ -6,6 +6,7 @@ import { ProjectService } from '../project.service';
 import { LoginService } from '../login/login.service';
 import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ResponseQuestion } from '../models/response-question';
 
 @Component({
   selector: 'app-menu',
@@ -27,20 +28,24 @@ export class MenuComponent implements OnInit{
   }
 
   project$!:Observable<Project>;
+  response$!:Observable<ResponseQuestion>;
+
   isMenuOpen= true;
   enableMenuBar = false;
   enableMenuNav = false;
+  enableMenuResponser = false;
+
+
   ngOnInit(): void {
      this.project$ = this._projectService.getSelectedProject();
+     this.response$ = this._projectService.getSelectedResponse();
      this.user = this._authService.getUser();
-
-
-     this._loginService.emitEventoEnableMenuBar.subscribe( (enableMenuBar) => this.enableMenuBar = enableMenuBar)
-     this._loginService.emitEventoEnableMenuNav.subscribe( (enableMenuNav) => this.enableMenuNav = enableMenuNav)
+  
+     this._loginService.emitEventoEnableMenuBar.subscribe( (enableMenuBar) => {this.enableMenuBar = enableMenuBar})
+     this._loginService.emitEventoEnableMenuNav.subscribe( (enableMenuNav) => {this.enableMenuNav = enableMenuNav})
+     this._loginService.emitEventoenableMenuResponser.subscribe( (enableMenuResponser) => {this.enableMenuResponser = enableMenuResponser})
 
   }
-
-
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
@@ -50,12 +55,16 @@ export class MenuComponent implements OnInit{
     this._router.navigate(['/questions',id])
   }
 
+  openResponserQuestion(id:string){
+    this._router.navigate(['/response/questions',id])
+  }
+
   openPrincipleResponse(id:string){
     this._router.navigate(['/responses',id])
   }
 
-  openResult(id:string){
-    this._router.navigate(['/result'])
+  openResult(name:string){
+    this._router.navigate(['/result',name])
 
   }
 }
