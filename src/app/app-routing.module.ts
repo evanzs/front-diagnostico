@@ -9,17 +9,24 @@ import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './guards/auth.guard.';
 import { ResultComponent } from './result/result.component';
 import { ResponsesComponent } from './responses/responses.component';
+import { ResponseQuestionsComponent } from './response-questions/response-questions.component';
+import { ChartsChartsjsComponent } from './charts-chartsjs/charts-chartsjs.component';
+import { ResultFilterComponent } from './result-filter/result-filter.component';
 
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
+  { path: 'menu', component: MenuComponent },
   { path: 'home', component: HomeComponent,canActivate:[AuthGuard] },
   { path: 'create-question', component: CreateQuestionComponent,canActivate:[AuthGuard] },
   { path: 'questions/:id', component: QuestionsComponent,canActivate:[AuthGuard] },
   { path: 'register', component: RegisterComponent },  
-  { path: 'result', component: ResultComponent,canActivate:[AuthGuard] },  
-  { path: 'responses', component: ResponsesComponent,canActivate:[AuthGuard] }  
+  { path: 'result/:name', component: ResultComponent,canActivate:[AuthGuard] },  
+  { path: 'result-filter', component: ResultFilterComponent,canActivate:[AuthGuard] },  
+
+  { path: 'responses', component: ResponsesComponent,canActivate:[AuthGuard] },
+  { path: 'response/questions/:id', component: ResponseQuestionsComponent,canActivate:[AuthGuard] }    
 ];
 
 @NgModule({
