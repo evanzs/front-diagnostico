@@ -1,0 +1,40 @@
+
+<div id="chart"
+*ngIf="chartOptions.series && 
+chartOptions.chart && 
+chartOptions.xaxis &&  
+chartOptions.colors &&
+chartOptions.dataLabels &&
+chartOptions.plotOptions &&
+chartOptions.markers &&
+chartOptions.yaxis &&
+data &&
+labels &&
+chartOptions.title ">
+
+<div >
+  <div id="chart"  #chart>
+    <apx-chart
+    
+      [series]="chartOptions.series"
+      [chart]="chartOptions.chart"
+      [xaxis]="chartOptions.xaxis"
+      [colors]="chartOptions.colors"
+      [dataLabels]="chartOptions.dataLabels"
+      [tooltip]="chartOptions.tooltip"
+      [plotOptions]="chartOptions.plotOptions"
+      [markers]="chartOptions.markers"
+      [yaxis]="chartOptions.yaxis"
+  
+      [title]="chartOptions.title"
+
+    ></apx-chart>
+  </div>
+</div>
+
+
+
+</div>
+
+
+
