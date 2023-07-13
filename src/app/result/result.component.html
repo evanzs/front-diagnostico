@@ -1,12 +1,21 @@
-<mat-card>
-  <mat-card-content>
-    <canvas #chart id="chart" baseChart class="chart"
-    [data]="radarChartData"
-    [options]="radarChartOptions"
-    [type]="radarChartType">
-  </canvas>
-  </mat-card-content>
-</mat-card>
+<div class="" *ngIf="!loading">
+  <mat-card *ngIf="dataset.length>0 && radarChartLabels.length > 0">
+    <mat-card-title class="m-2 d-flex justify-content-center ">{{selectedPrinciple}}</mat-card-title>
+    <mat-card-content class="container">
+      <div class="d-flex justify-content-center align-items-center" style="height: 80vh;">        
+        <canvas #chart id="chart" baseChart class="chart"
+        [data]="radarChartData"
+        [options]="radarChartOptions"
+        [type]="radarChartType">
+      </canvas>
+      </div>
+      <div *ngIf="dataset.length > 0 && labels.length > 0 && !loading" >
+        <app-charts-chartsjs [data]="dataset" [labels]="labels"></app-charts-chartsjs>
+      </div>
+  
+    </mat-card-content>
+  </mat-card>
+</div>
 
-
-<button type="button" (click)="export()">Export</button>
+<!-- 
+<button type="button" (click)="export()">Export</button> -->
