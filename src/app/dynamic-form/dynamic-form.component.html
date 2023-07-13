@@ -1,15 +1,3 @@
-<!-- <form [formGroup]="dynamicForm">
-    <ng-container *ngFor="let guideline of project.principles[0].guidelines">
-      <h3>{{ guideline.name }}</h3>
-      <div *ngFor="let question of guideline.questions">
-        <label>{{ question.ask }}</label>
-        <input type="text" [formControlName]="question._id" />
-      </div>
-    </ng-container>
-    <button type="button" (click)="saveForm()">Salvar</button>
-  </form>
- -->
-
  <mat-card>
   <mat-card-header>
     <mat-card-title>{{project.principles[indexPrinciple].name}}</mat-card-title>
@@ -33,8 +21,7 @@
 <mat-radio-group   [formControlName]="question._id"  [value]="question.rate" aria-label="Select an option">
   <mat-radio-button  *ngFor="let item of radioItems" 
       [value]="item"
-      [checked]="item == question.rate"
-      (change)="teste(item == question.rate)"
+      [checked]="item == question.rate"    
       >{{item}}</mat-radio-button>
   
 </mat-radio-group>

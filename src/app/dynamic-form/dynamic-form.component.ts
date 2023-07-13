@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Project } from '../models/project';
 import { Question } from '../models/question';
+import { ProjectService } from '../project.service';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -15,7 +16,8 @@ export class DynamicFormComponent implements OnInit,OnChanges {
   panelOpenState = false;
 
   radioItems = ['0','1','2','3','4','5','Não sei']
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder,
+    private _projectService:ProjectService) {}
 
   ngOnInit() {
     this.buildDynamicForm();
@@ -52,10 +54,11 @@ export class DynamicFormComponent implements OnInit,OnChanges {
         });
       }
     }
-    console.log(this.project.principles[this.indexPrinciple])
+    this._projectService.updateCreatorResponse(this.project._id,this.project).subscribe({
+      next:(project)=>{
+        console.log(project)
+      }
+    })
   }
 
-  teste(item:any){
-    console.log(item)
-  }
 }
