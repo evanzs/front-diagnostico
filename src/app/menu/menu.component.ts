@@ -1,5 +1,6 @@
+import { OnChanges, SimpleChanges } from '@angular/core';
 import { AuthService } from './../auth.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { UserApp } from '../models/userApp';
 import { Project } from '../models/project';
 import { ProjectService } from '../project.service';
@@ -30,22 +31,21 @@ export class MenuComponent implements OnInit{
   project$!:Observable<Project>;
   response$!:Observable<ResponseQuestion>;
 
-  isMenuOpen= true;
+  isMenuOpen= false;
   enableMenuBar = false;
   enableMenuNav = false;
   enableMenuResponser = false;
 
 
-  ngOnInit(): void {
-     this.project$ = this._projectService.getSelectedProject();
-     this.response$ = this._projectService.getSelectedResponse();
-     this.user = this._authService.getUser();
-  
+  ngOnInit(): void {  
      this._loginService.emitEventoEnableMenuBar.subscribe( (enableMenuBar) => {this.enableMenuBar = enableMenuBar})
      this._loginService.emitEventoEnableMenuNav.subscribe( (enableMenuNav) => {this.enableMenuNav = enableMenuNav})
      this._loginService.emitEventoenableMenuResponser.subscribe( (enableMenuResponser) => {this.enableMenuResponser = enableMenuResponser})
-
-  }
+     this.project$ = this._projectService.getSelectedProject();
+     this.response$ = this._projectService.getSelectedResponse();
+     this.user = this._authService.getUser();
+   
+    }
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
@@ -65,6 +65,18 @@ export class MenuComponent implements OnInit{
 
   openResult(name:string){
     this._router.navigate(['/result',name])
+  }
+
+  onClose(){
+    this._authService.removeToken();
+    this._authService.removeUser();
+    this._projectService.removeEnvProject();
+    this._loginService.disableMenuNav();
+    this._loginService.disableMenuBar();
+    this._loginService.disableMenuResponser();
+
+
+    this._router.navigate(['/login'])
 
   }
 }
