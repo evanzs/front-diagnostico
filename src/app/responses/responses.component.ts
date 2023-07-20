@@ -1,3 +1,4 @@
+import { ResponsesService } from './responses.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
@@ -5,6 +6,10 @@ import { AuthService } from '../auth.service';
 import { Project } from '../models/project';
 import { ProjectService } from '../project.service';
 import { ResponseQuestion } from '../models/response-question';
+import { MatDialog } from '@angular/material/dialog';
+import { ResultComponent } from '../result/result.component';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-responses',
@@ -18,18 +23,17 @@ export class ResponsesComponent implements OnInit {
 
   constructor(private readonly _authService:AuthService,
     private readonly _projectService:ProjectService,
-    private readonly _route:ActivatedRoute,
-    private readonly _router:Router){}
+    private readonly _responsesServices:ResponsesService,
+    private readonly _router:Router,
+    public dialog: MatDialog,
+    private _snackBar: MatSnackBar){}
     project!:Project;
     indexPrinciple:number = 0;
 
+
+
   displayedColumns: string[] = ['email', 'createdAt','completed','acoes'];
-  data =[
-   { email:"evandro@com.br",completed:true,createdAt:"2022-02-05"},
-   { email:"evandro@com.br",completed:true,createdAt:"2022-02-15"},
-   { email:"evandro@com.br",completed:true,createdAt:"2022-02-08"},
-   { email:"Resposta Anonima",completed:true,createdAt:"2022-02-08"},
-  ]
+
   ngOnInit(): void {
     this.project = this._projectService.getEnvProject();
     this.getResponseByProjectId();
@@ -41,7 +45,7 @@ export class ResponsesComponent implements OnInit {
     if(!this.project)
     return;
 
-   this._projectService.getResponsesByProjectId(this.project._id).subscribe({
+   this._responsesServices.getResponsesByProjectId(this.project._id).subscribe({
     next:(res) => {
       this.responseQuestion = res;
     },
@@ -52,9 +56,32 @@ export class ResponsesComponent implements OnInit {
   
   }
   
-  deleteResponse(project:Project):void{}
-  editResponse(project:Project):void {
+  deleteResponse(response:ResponseQuestion):void{
+    const id = response._id
+    if(!id)
+        return ;
+    const data = {
+      text: "Deseja deletar esse projeto?",
+      title:"Deletar",
+      btnText:"Deletar",
+      btnVisible:true
+    }
+    const dialogRef = this.dialog.open(ConfirmDialogComponent,{data})
 
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this._responsesServices.delete(id).subscribe((res)=>{
+          this.getResponseByProjectId();
+        })
+        this._snackBar.open("Projeto deletado!","fechar",{duration:10000})
+
+      }
+      return;
+    });
+  }
+  editResponse(project:ResponseQuestion):void {
+    const data = project
+    this.dialog.open(ResultComponent,{data})
   }
 
 }
