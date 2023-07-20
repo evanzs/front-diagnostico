@@ -25,11 +25,30 @@
       >{{item}}</mat-radio-button>
   
 </mat-radio-group>
-<mat-divider  class="m-3"></mat-divider>    
+<mat-divider  class="m-3"></mat-divider> 
+
 </div>  
+<mat-form-field class="d-flex" >
+  <mat-label>Sugestões</mat-label>
+  <textarea  [formControlName]="guideline._id" matInput [value]="guideline.sugestion"></textarea>
+</mat-form-field> 
 <mat-action-row>
   <button type="button" mat-button color="primary" (click)="saveForm()">Salvar</button>
 </mat-action-row> 
 </mat-expansion-panel>    
 </form>
+<div class="d-flex mt-2 justify-content-center p-2">
+  <button mat-fab color="accent" matTooltip="Voltar" [hidden]="indexPrinciple === 0" type="button" (click)="eventoPreviousPrinciple()">
+    
+    <mat-icon>keyboard_arrow_left</mat-icon>
+  </button>
+  <button class="mx-2" mat-fab color="primary" matTooltip="Salvar" type="submit" (click)="saveForm()">
+    <mat-icon>save</mat-icon>
+  </button>
+  <button mat-fab color="warn" matTooltip="Próximo" type="button" (click)="eventoNextPrinciple()">
+    
+    <mat-icon>keyboard_arrow_right</mat-icon>
+  </button>
 
+
+</div>
