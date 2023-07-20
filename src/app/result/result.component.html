@@ -1,21 +1,30 @@
-<div class="" *ngIf="!loading">
-  <mat-card *ngIf="dataset.length>0 && radarChartLabels.length > 0">
-    <mat-card-title class="m-2 d-flex justify-content-center ">{{selectedPrinciple}}</mat-card-title>
-    <mat-card-content class="container">
-      <div class="d-flex justify-content-center align-items-center" style="height: 80vh;">        
-        <canvas #chart id="chart" baseChart class="chart"
-        [data]="radarChartData"
-        [options]="radarChartOptions"
-        [type]="radarChartType">
-      </canvas>
+
+
+<mat-card class="example-card">
+  <mat-card-content>
+    <div class="" 
+    style="max-width: 100vh;"
+    *ngIf="principles.length >0"
+    
+    >
+      <mat-tab-group>
+        <mat-tab label={{principle.name}} *ngFor="let principle of principles">  
+          <div class="mb-2" style="max-height: 60vh; overflow: auto;"><app-table-responser [data]="principle" ></app-table-responser></div>
+           
+        </mat-tab>
+    
+      </mat-tab-group>
+      
+    </div>
+  </mat-card-content>
+  <mat-card-actions  class="d-flex justify-content-center">
+    <div>
+      <div class="m-2">
+          <button mat-raised-button color="warn" mat-dialog-close>Fechar</button>
+      </div>   
       </div>
-      <div *ngIf="dataset.length > 0 && labels.length > 0 && !loading" >
-        <app-charts-chartsjs [data]="dataset" [labels]="labels"></app-charts-chartsjs>
-      </div>
-  
-    </mat-card-content>
-  </mat-card>
-</div>
+  </mat-card-actions>
+</mat-card>
 
 <!-- 
 <button type="button" (click)="export()">Export</button> -->
