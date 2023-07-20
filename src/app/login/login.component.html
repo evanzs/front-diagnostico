@@ -6,7 +6,7 @@
       </mat-card-header>
       <mat-card-content  class="align-items-center w-100">
         <!-- Formulário de login -->
-        <form  [formGroup]="formLogin" class="m-3" >
+        <form  [formGroup]="formLogin" (keyup.enter)="submitLogin()"  class="m-3" >
           <mat-form-field class="w-100">
             <mat-label>Email</mat-label>
             <input formControlName="email" matInput placeholder="usuario@usuario.com" type="email">
@@ -26,7 +26,7 @@
       
       </div>
 <div class="row my-4">
-  <button mat-button (click)="register()" color="primary">Registrar</button>
+  <button mat-button (click)="openDialogRegister()" color="primary">Registrar</button>
 
 </div>
     </mat-card>
