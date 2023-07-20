@@ -1,7 +1,10 @@
+import { ProjectService } from 'src/app/project.service';
 import { EventEmitter, Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { UserApp } from './models/userApp';
 import { Subject } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { LoginService } from './login/login.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +15,11 @@ export class AuthService {
 
   userApp!:UserApp;
   emitirUserApp = new Subject<UserApp>();
-  constructor(private jwtHelper: JwtHelperService){}
+  constructor(private jwtHelper: JwtHelperService,
+    private readonly _projectService:ProjectService,
+    private readonly _router:Router,
+    private readonly _loginService:LoginService,
+    ){}
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
   }
@@ -33,7 +40,7 @@ export class AuthService {
   }
   
   getUserToken() {
-    const genericUser ={email:'decodedToken.email',id:'decodedToken.id',projects:['projectIds'],userName:'username'}
+    const genericUser ={email:'decodedToken.email',id:'decodedToken.id',projects:['projectIds'],userName:'username',responser:false,admin:false}
     const token = this.getToken();
   
     if(!token)
@@ -44,7 +51,7 @@ export class AuthService {
     if(!decodedToken)
       return  this.emitirUserApp.next(genericUser);
     
-    const newUser = {email:decodedToken.email,id:decodedToken.id,projects:decodedToken.projectIds,userName:decodedToken.username};
+    const newUser = {email:decodedToken.email,id:decodedToken.id,projects:decodedToken.projectIds,userName:decodedToken.username,responser:decodedToken.responser,admin:decodedToken.admin};
     this.setUser(newUser)
     return this.emitirUserApp.next(newUser);
   }
@@ -60,10 +67,67 @@ export class AuthService {
     return this.userApp;
   }
 
+  userSessionValidate(){
+    const userApp = this.getUser();
+
+    if(!userApp)
+      this._router.navigate(['login'])
+
+    if(userApp.responser){
+      return this.responserValidate();
+    }
+
+    return this.creatorValidate();
+  }
+
+  responserValidate(){
+    console.log("opa")
+    let response = this._projectService.getEnvResponse();
+    console.log("opa",response)
+
+    if(!response){
+      const  localResponse = this._projectService.getStorageResponseQuestion();
+     if(localResponse){
+       this.enableMenuResponser();          
+       this._projectService.loadResponse(localResponse)
+       return true;
+     }        
+    }   
+
+   return true;
+  }
+
+  creatorValidate(){
+     let project = this._projectService.getEnvProject();
+
+     if(!project){
+       const  localProject = this._projectService.getStorageProject();
+      if(localProject){
+        this.enableMenuResponser();         
+        this._projectService.loadProject(localProject)
+        return true;
+      }        
+     }   
+
+    return true;
+  }
 
   removeUser(): void {
     localStorage.removeItem(this.userKey);
   }
+
+  enableMenu(){
+    this._loginService.enableMenuNav();
+    this._loginService.enableMenuBar();
+    this._loginService.disableMenuResponser();
+  }
+
+  enableMenuResponser(){
+    this._loginService.enableMenuBar();
+    this._loginService.disableMenuNav();
+    this._loginService.enableMenuResponser();
+  }
+
 
   getEmitirUserApp(){
     return this.emitirUserApp.asObservable();
