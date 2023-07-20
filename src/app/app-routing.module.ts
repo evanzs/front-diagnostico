@@ -12,19 +12,19 @@ import { ResponsesComponent } from './responses/responses.component';
 import { ResponseQuestionsComponent } from './response-questions/response-questions.component';
 import { ChartsChartsjsComponent } from './charts-chartsjs/charts-chartsjs.component';
 import { ResultFilterComponent } from './result-filter/result-filter.component';
+import { AuthHomeGuard } from './guards/auth-home.guard';
 
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'menu', component: MenuComponent },
-  { path: 'home', component: HomeComponent,canActivate:[AuthGuard] },
+  { path: 'home', component: HomeComponent,canActivate:[AuthHomeGuard] },
   { path: 'create-question', component: CreateQuestionComponent,canActivate:[AuthGuard] },
   { path: 'questions/:id', component: QuestionsComponent,canActivate:[AuthGuard] },
   { path: 'register', component: RegisterComponent },  
-  { path: 'result/:name', component: ResultComponent,canActivate:[AuthGuard] },  
-  { path: 'result-filter', component: ResultFilterComponent,canActivate:[AuthGuard] },  
-
+  { path: 'result', component: ResultComponent,canActivate:[AuthGuard] },  
+  { path: 'result-filter', component: ResultFilterComponent,canActivate:[AuthGuard] },
   { path: 'responses', component: ResponsesComponent,canActivate:[AuthGuard] },
   { path: 'response/questions/:id', component: ResponseQuestionsComponent,canActivate:[AuthGuard] }    
 ];
