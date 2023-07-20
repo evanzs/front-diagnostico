@@ -50,6 +50,8 @@ export class DynamicResponseComponent implements OnInit,OnChanges{
       guideline.questions.forEach((question: Question) => {
         this.dynamicForm.addControl(question._id, this.formBuilder.control(question.rate));
       });
+      this.dynamicForm.addControl(guideline._id, this.formBuilder.control(guideline.sugestion));
+
     });
   }
   saveForm() {
@@ -58,9 +60,11 @@ export class DynamicResponseComponent implements OnInit,OnChanges{
     for (const questionId in formData) {
       if (formData.hasOwnProperty(questionId)) {
         const answer = formData[questionId];
-        
+
         // Atualizar a taxa da pergunta correspondente no objeto 'project'
         this.responseQuestion.principles[0].guidelines.forEach((guideline) => {
+          if(guideline._id === questionId)
+          guideline.sugestion= answer;
           const question = guideline.questions.find((q) => q._id === questionId);
           if (question) {
             question.rate = answer;
