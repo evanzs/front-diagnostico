@@ -59,19 +59,24 @@ export class CreateProjectComponent implements OnInit,AfterViewInit {
   }
 
   submitForm(){
-    if(this.data)
-        return this.updateProject();
+    const {project} = this.data
+    if(project){      
+      return this.updateProject();
+    }
+        
     return this.createProject();
   }
 
   createProject(){
+ 
     const userId = this.userApp.id;
     this._projectService.createProject(userId,this.meetupForm.value).subscribe({
       next: () =>{
-        this.dialogRef.close();
+        this._snackBar.open("Projeto criado com sucesso!","fechar",{duration:10000})
+        this.dialogRef.close(true);
       },
       error:()=>{
-        this._snackBar.open("Não foi possivel criar o projeto.","fechar")
+        this._snackBar.open("Não foi possivel criar o projeto.","fechar",{duration:10000})
       }
     })
   }
@@ -81,10 +86,11 @@ export class CreateProjectComponent implements OnInit,AfterViewInit {
 
     this._projectService.updateProject(project._id,this.meetupForm.value).subscribe({
       next: () =>{
-        this.dialogRef.close();
+        this._snackBar.open("Projeto editado com sucesso!","fechar",{duration:10000})
+        this.dialogRef.close(true);
       },
       error:()=>{
-        this._snackBar.open("Não foi possivel editar o projeto.","fechar")
+        this._snackBar.open("Não foi possivel editar o projeto.","fechar",{duration:10000})
       }
     })
   }
