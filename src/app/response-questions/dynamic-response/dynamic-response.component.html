@@ -1,12 +1,13 @@
  <mat-card>
     <mat-card-header>
-      <mat-card-title>
-        {{responseQuestion.principles[indexPrinciple].name}}       
-      </mat-card-title>
+      <mat-card-title class="d-flex flex-column">
+        <div class=" d-flex justify-content-end text-primary">        {{ responseQuestion?._id !== '' ? 'chave para continuar: ' + responseQuestion._id : '' }}
+        </div>  
+<div class="d-flex">        {{responseQuestion.principles[indexPrinciple].name}} </div>
+       
+ </mat-card-title>
       <mat-card-subtitle>
-        {{responseQuestion.principles[0].description}}
-        
-        {{ responseQuestion?._id !== '' ? 'chave para continuar: ' + responseQuestion._id : '' }}
+        {{responseQuestion.principles[0].description}}        
       </mat-card-subtitle>
     </mat-card-header>
   </mat-card>
@@ -34,6 +35,10 @@
   </mat-radio-group>
   <mat-divider  class="m-3"></mat-divider>    
   </div>  
+  <mat-form-field class="d-flex" >
+    <mat-label>Sugestões</mat-label>
+    <textarea  [formControlName]="guideline._id" matInput [value]="guideline.sugestion"></textarea>
+  </mat-form-field> 
   </mat-expansion-panel>    
   </form>
 <div class="d-flex mt-2 justify-content-center">
