@@ -1,27 +1,37 @@
-<div class="container">
-    <h2>Registro de Conta</h2>
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" class="form-control" formControlName="email" id="email">
-      </div>
-      <div class="form-group">
-        <label for="name">Nome:</label>
-        <input type="text" class="form-control" formControlName="name" id="name">
-      </div>
-      <div class="form-group">
-        <label for="reason">Motivo:</label>
-        <input type="text" class="form-control" formControlName="reason" id="reason">
-      </div>
-      <div class="form-group">
-        <label for="password">Senha:</label>
-        <input type="password" class="form-control" formControlName="password" id="password">
-      </div>
-      <div class="form-group">
-        <label for="confirmPassword">Confirmar Senha:</label>
-        <input type="password" class="form-control" formControlName="confirmPassword" id="confirmPassword">
-      </div>
-      <button type="submit" class="btn btn-primary">Registrar</button>
-    </form>
+<mat-card class="" style="width: 350px;">
+  <div class="align-items-center">
+    <mat-card-header>
+      <mat-card-title>Registro de Conta</mat-card-title>
+
+  </mat-card-header>
+  <mat-card-content class="mt-4 ">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()"
+  (keyup.enter)="onSubmit()">
+    <div class="d-flex flex-column mw-100 ">
+    <mat-form-field>
+      <mat-label>Email:</mat-label>
+      <input matInput type="email" formControlName="email" id="email">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Nome:</mat-label>
+      <input matInput type="text" formControlName="name" id="name">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Motivo:</mat-label>
+      <input matInput type="text" formControlName="reason" id="reason">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Senha:</mat-label>
+      <input matInput type="password" formControlName="password" id="password">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Confirmar Senha:</mat-label>
+      <input matInput type="password" formControlName="confirmPassword" id="confirmPassword">
+      <mat-error *ngIf="registerForm.hasError('passwordMismatch')">As senhas não coincidem</mat-error>
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit" [disabled]="registerForm.invalid">Registrar</button>
   </div>
-  
+  </form>
+</mat-card-content >
+  </div>
+</mat-card>
