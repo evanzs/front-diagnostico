@@ -37,6 +37,19 @@ import {MatTableModule} from '@angular/material/table';
 import { ResponsesComponent } from './responses/responses.component';
 import {MatTooltipModule} from '@angular/material/tooltip'; 
 import {MatSnackBarModule} from '@angular/material/snack-bar'; 
+import {MatDialogModule} from '@angular/material/dialog';
+import { CreateProjectComponent } from './create-project/create-project.component';
+import { KeyDailogComponent } from './key-dailog/key-dailog.component';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { ResponseQuestionsComponent } from './response-questions/response-questions.component';
+import { DynamicResponseComponent } from './response-questions/dynamic-response/dynamic-response.component';
+import { ChartsChartsjsComponent } from './charts-chartsjs/charts-chartsjs.component'; 
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { MatSelectModule } from '@angular/material/select';
+import { ResultFilterComponent } from './result-filter/result-filter.component';
+import { ResultApexComponent } from './result-apex/result-apex.component';
+import {MatTabsModule} from '@angular/material/tabs';
+import { TableResponserComponent } from './result/table-responser/table-responser.component'; 
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,7 +61,16 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     HomeComponent,
     DynamicFormComponent,
     ResultComponent,
-    ResponsesComponent
+    ResponsesComponent,
+    CreateProjectComponent,
+    KeyDailogComponent,
+    ConfirmDialogComponent,
+    ResponseQuestionsComponent,
+    DynamicResponseComponent,
+    ChartsChartsjsComponent,
+    ResultFilterComponent,
+    ResultApexComponent,
+    TableResponserComponent
   ],
   imports: [
     BrowserModule,
@@ -73,8 +95,13 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatRadioModule,
     MatTableModule,
     MatTooltipModule,
-    MatSnackBarModule
-      
+    MatSnackBarModule,
+    MatDialogModule,
+    ReactiveFormsModule,
+    NgApexchartsModule,
+    MatSelectModule,
+    MatTabsModule
+
   ],
   providers: [        { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     JwtHelperService,ProjectService,AuthService,AuthGuard],
