@@ -1,5 +1,5 @@
 <div class="" *ngIf="!loading">
-    <mat-card *ngIf="dataset.length>0 && radarChartLabels.length > 0">
+    <mat-card *ngIf="radarChartLabels.length > 0">
 <mat-toolbar class="mb-4">
         <mat-card-title class="m-2 flex-grow-1 justify-content-center ">{{selectedPrinciple}}</mat-card-title>
 
@@ -14,7 +14,7 @@
             </mat-select>
           </mat-form-field>
 <div class="d-flex h-100 align-items-center">
-  <button mat-button color="primary">        
+  <button mat-button color="primary" (click)="setExport()">        
     Exportar
   </button>
 </div>
@@ -22,14 +22,10 @@
   
 </mat-toolbar>
 
-      <mat-card-content class="container">
+      <mat-card-content class="">
         <div *ngIf="!loading && radarChartData.datasets.length > 0">        
-          <app-result-apex [radarChartData]="radarChartData"></app-result-apex>
-        </div>
-        <div *ngIf="dataset.length > 0 && labels.length > 0 && !loading" >
-          <app-charts-chartsjs [data]="dataset" [labels]="labels"></app-charts-chartsjs>
-        </div>
-    
+          <app-result-apex [radarChartData]="radarChartData" [exportCanvas]="exportCanvas" ></app-result-apex>       
+      </div>    
       </mat-card-content>
     </mat-card>
   </div>
