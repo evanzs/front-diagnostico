@@ -1,3 +1,4 @@
+<div class="" *ngIf="enableMenuBar">
   <mat-toolbar color="accent" class="navbar" *ngIf="enableMenuBar">
     <button mat-icon-button (click)="toggleMenu()">
       <mat-icon>menu</mat-icon>
@@ -18,7 +19,7 @@
             <mat-expansion-panel>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  Princípio
+                  Princípios
                 </mat-panel-title>
               </mat-expansion-panel-header>
            <div *ngFor="let principle of project.principles">
@@ -26,26 +27,16 @@
            </div>
             </mat-expansion-panel>
           </mat-accordion>
-          <mat-accordion>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                 Resultados
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-           <div *ngFor="let principle of project.principles">
-            <a mat-list-item (click)="openResult(principle.name) ">{{principle.name}}</a>
-           </div>
-            </mat-expansion-panel>
-          </mat-accordion>  
-          <a mat-list-item routerLink="/responses" >Respostas</a>
-   
+          <a mat-list-item routerLink="/result-filter">Resultado</a>   
+          <a mat-list-item routerLink="/responses" >Participantes</a>    
+
         </div> 
-        <a mat-list-item routerLink="/result-filter">Resultado</a>   
+        <a mat-list-item (click)="onClose()">Sair</a>   
+
         </div> 
    
 
-
+     
 
 
        <!-- CLIENTE MENU -->
@@ -69,9 +60,11 @@
       </mat-nav-list>  
     </mat-sidenav>
     <mat-sidenav-content class="container">
-        <router-outlet ></router-outlet>
+        <router-outlet></router-outlet>
     </mat-sidenav-content>
   </mat-sidenav-container>
+</div>
+<div class="" *ngIf="!enableMenuBar">
+  <router-outlet></router-outlet>
 
- 
-  
+</div>
