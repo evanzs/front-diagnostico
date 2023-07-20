@@ -55,11 +55,6 @@ export class HomeComponent  implements OnInit{
     this.getProjects(this.user.id)  
   }
 
-  createNewProject(): void {
-    console.log('Criar novo projeto');
-    // Lógica para criar um novo projeto
-  }
-
   loadProjects(project:Project): void {
     this._projectService.loadProject(project)
     const id = project?.principles[0]?._id
@@ -74,28 +69,36 @@ export class HomeComponent  implements OnInit{
 
   deleteProject(project:Project){
     const id = project?._id
-
-    const dialogRef = this.dialog.open(ConfirmDialogComponent)
+    const data = {
+      text: "Deseja deletar esse projeto?",
+      title:"Deletar",
+      btnText:"Deletar",
+      btnVisible:true
+    }
+    const dialogRef = this.dialog.open(ConfirmDialogComponent,{data})
     dialogRef.afterClosed().subscribe(result => {
       if(result){
 
         this._projectService.deleteProject(id).subscribe((res)=>{
           this.getProjects(this.user.id) 
         })
+        this._snackBar.open("Projeto deletado!","fechar",{duration:10000})
+
       }
       return;
     });
   }
 
-  shareProject(){
+  shareProject(project:Project){
     const data = {
-      text:"AS9312ajeia12/839$511",
-      title:"Chave do Projeto"
+      text: project._id,
+      title:"Chave do Projeto",
+      btnText:"",
+      btnVisible:false
     }
     const dialogRef = this.dialog.open(ConfirmDialogComponent,{data})
   
   }
-
 
   openDialog(project:Project | null): void {
     const dialogRef = this.dialog.open(CreateProjectComponent,{
