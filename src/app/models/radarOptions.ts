@@ -8,7 +8,7 @@ export const radarChartOptions: ChartConfiguration['options'] = {
     elements:{
     
       line:{
-        borderWidth:10
+        borderWidth:5
       },
     },
     plugins: {
@@ -27,7 +27,7 @@ export const radarChartOptions: ChartConfiguration['options'] = {
         }
       },
       legend: {
-        display: false,
+        display: true,
       }
     },
     scales: {
@@ -45,6 +45,7 @@ export const radarChartOptions: ChartConfiguration['options'] = {
         ticks: {       
           color: 'red',
           stepSize:1,
+          display: false, // Remover a exibição das legendas dos números
          
           font:{
             size:18,
@@ -56,7 +57,7 @@ export const radarChartOptions: ChartConfiguration['options'] = {
         },
         pointLabels:{          
           font:{
-            size:18,
+            size:15,
             weight:"bold",           
                       
           },
