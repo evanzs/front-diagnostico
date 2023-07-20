@@ -10,10 +10,15 @@ export class LoginService {
   private readonly URL = environment.apiUrl
   emitEventoEnableMenuBar = new EventEmitter<boolean>();
   emitEventoEnableMenuNav = new EventEmitter<boolean>();
+  emitEventoenableMenuResponser = new EventEmitter<boolean>();
   constructor(private http: HttpClient) { }
 
   logIn(data:any):Observable<any>{
     return this.http.post<any>(this.URL+"/login",data)
+  }
+
+  loginResponse(data:any):Observable<any>{
+    return this.http.post<any>(this.URL+"/login/response",data)
   }
 
   createUser(data:any):Observable<any>{
@@ -29,5 +34,25 @@ export class LoginService {
   }
   enableMenuNav(){
     this.emitEventoEnableMenuNav.emit(true)
+  }
+
+  disableMenuNav(){
+   
+    this.emitEventoEnableMenuNav.emit(false)
+  }
+
+  disableMenuBar(){
+   
+    this.emitEventoEnableMenuBar.emit(false)
+  }
+
+  disableMenuResponser(){
+   
+    this.emitEventoenableMenuResponser.emit(false)
+  }
+
+  enableMenuResponser(){
+ 
+    this.emitEventoenableMenuResponser.emit(true)
   }
 }
