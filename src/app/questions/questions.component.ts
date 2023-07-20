@@ -38,7 +38,9 @@ export class QuestionsComponent implements OnInit{
 
         if(!this.project)
           this._router.navigate(['/home'])
+
           
+        this._projectService.setProject( this.project)   
         this.findIndexPrinciple(params['id'])     
       }
     })
@@ -47,13 +49,21 @@ export class QuestionsComponent implements OnInit{
   panelOpenState = false;
 
   findIndexPrinciple(id:string){
-
     const result = this.project.principles.findIndex( p => p._id === id)
-
-
+    console.log("result",result)
     if(result)
-      this.indexPrinciple =result      
+      this.indexPrinciple =result     
+  }
 
+  nextPrinciple(indexPrinciple:number){
+    console.log(indexPrinciple)
 
+    let id = this.project.principles[indexPrinciple]._id
+ 
+    if(!id){
+      this.project.principles[0]._id
+    }
+    console.log("dd",id)
+    this._router.navigate(['questions/'+id])
   }
 }
