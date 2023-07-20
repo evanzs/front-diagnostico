@@ -8,6 +8,7 @@ export interface Guideline {
     description:string
     questions:Array<Question>
     responses:Array<ResponseQuestion>
+    sugestion:string;
   }
 
   
