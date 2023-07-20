@@ -19,17 +19,29 @@ constructor(private http: HttpClient) { }
 
     loadProject(project:Project){
         this.setProject(project) 
-        this.setEnvProject(project)      
+        this.setEnvProject(project)   
+        this.setStorageProject(project)   
     }
 
     loadResponse(responseQuestion:ResponseQuestion){
         this.setResponse(responseQuestion) 
+        this.setStorageResponseQuestion(responseQuestion)
         this.setEnvResponse(responseQuestion)      
     }
 
     setProject(project:Project){
         
         this.selectedProject.next(project);
+    }
+
+    setStorageProject(project:Project){
+        const newProject = JSON.stringify(project)
+        localStorage.setItem('project',newProject)
+    }
+
+    setStorageResponseQuestion(response:ResponseQuestion){
+        const newProject = JSON.stringify(response)
+        localStorage.setItem('response',newProject)
     }
 
     setResponse(responseQuestion:ResponseQuestion){
@@ -56,10 +68,38 @@ constructor(private http: HttpClient) { }
         return this.project
     }
 
+    getStorageProject():Project | null{
+        const stringProject = localStorage.getItem('project')
+        if(stringProject){
+            return JSON.parse(stringProject)
+        }
+        return null        
+    }
+
+    getStorageResponseQuestion():ResponseQuestion | null{
+        const stringResponseQuestion = localStorage.getItem('response')
+        if(stringResponseQuestion){
+            return JSON.parse(stringResponseQuestion)
+        }
+        return null        
+    }
+
     getEnvResponse():ResponseQuestion{
         return this.responseQuestion
     }
   
+    removeEnvProject():void{
+        let newProject!:Project;
+        this.project = newProject;
+        localStorage.removeItem('project')
+    }
+
+    removeEnvResponseQuestion():void{
+        let responseQuestion!:ResponseQuestion;
+        this.responseQuestion = responseQuestion;
+        localStorage.removeItem('response')
+    }
+
     getProjects(userId:string):Observable<any>{
         return this.http.get<any>(this.URL+"/project/user/"+userId)       
     }
@@ -67,12 +107,6 @@ constructor(private http: HttpClient) { }
     getResponseById(responseId:string):Observable<any>{
         return this.http.get<any>(this.URL+"/project/response/"+responseId)
     }
-
-
-    getResponsesByProjectId(responseId:string):Observable<ResponseQuestion[]>{
-        return this.http.get<any>(this.URL+"/project/"+responseId+"/response")
-    }
-
 
     getProjectById(projectId:string):Observable<any>{
         return this.http.get<any>(this.URL+"/project/"+projectId)
