@@ -43,7 +43,7 @@
       <ng-container matColumnDef="acoes">
         <th mat-header-cell *matHeaderCellDef>Ações</th>
         <td mat-cell *matCellDef="let projeto">
-          <button mat-icon-button matTooltip="abrir" color="primary" (click)="loadProjects(projeto)">
+          <button mat-icon-button matTooltip="abrir" (click)="loadProjects(projeto)">
             <mat-icon>visibility</mat-icon>
           </button>
           <button mat-icon-button matTooltip="editar" color="primary" (click)="openDialog(projeto)">
@@ -52,7 +52,7 @@
           <button mat-icon-button matTooltip="deletar" color="warn" (click)="deleteProject(projeto)">
             <mat-icon>delete</mat-icon>
           </button>
-          <button mat-icon-button matTooltip="compartilhar" color="warn" (click)="shareProject()">
+          <button mat-icon-button matTooltip="compartilhar" color="warn" (click)="shareProject(projeto)">
             <mat-icon>share</mat-icon>
           </button>
         </td>
