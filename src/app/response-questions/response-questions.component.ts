@@ -33,7 +33,7 @@ export class ResponseQuestionsComponent  implements OnInit{
         this.responseQuestion = this._projectService.getEnvResponse()
         this._projectService.loadResponse(this.responseQuestion)
         if(!this.responseQuestion)
-          this._router.navigate(['/home'])
+          this._router.navigate(['/login'])
           
         this.findIndexPrinciple(params['id'])     
       }
