@@ -10,8 +10,10 @@ import { LoginService } from '../login/login.service';
 })
 export class AuthGuard {
 
- constructor(private readonly _authService:AuthService,
-  private readonly router:Router,private readonly _loginService:LoginService) { }
+ constructor(
+  private readonly router:Router,
+  private readonly _authService:AuthService
+  ) { }
 
   canActivate(route:ActivatedRouteSnapshot,state:RouterStateSnapshot):boolean | Promise<boolean> | Observable<boolean>{
      const isTokenExpired  = this._authService.isTokenExpired();
@@ -20,10 +22,7 @@ export class AuthGuard {
         this.router.navigate(['login'])
         return false;
      }
-     this._loginService.enableMenuBar();
-     this._loginService.enableMenuNav();
-     return true;       
-  }
-
-  
+     return this._authService.userSessionValidate();       
+       
+  }  
 }
