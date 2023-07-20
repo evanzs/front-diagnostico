@@ -39,6 +39,8 @@ export class ChartsChartsjsComponent implements OnChanges{
   @ViewChild("chart") chart!: ChartComponent;
   chartOptions!: Partial<ChartOptions>;
 
+ @Input() dataCreator:Array<number | null> =[];
+ @Input() dataResponser:Array<number | null> =[];
  @Input() data:Array<number | null> =[];
  @Input() labels:Array<string> = [];
 
@@ -47,8 +49,12 @@ export class ChartsChartsjsComponent implements OnChanges{
     this.chartOptions = {
       series: [
         {
-          name: "Series 1",
-          data: this.data
+          name: "Criador",
+          data: this.dataCreator
+        },
+        {
+          name: "Questionário",
+          data: this.dataResponser
         }
       ],
       chart: {
@@ -64,7 +70,7 @@ export class ChartsChartsjsComponent implements OnChanges{
         radar: {
           size: 225,
           polygons: {
-            strokeColors: "#e9e9e9",
+            strokeColors: ["#e9e9e9"],
             fill: {
               colors: ["#f8f8f8", "#fff"]
             }
@@ -74,11 +80,11 @@ export class ChartsChartsjsComponent implements OnChanges{
       title: {
         text: "Radar with Polygon Fill"
       },
-      colors: ["#FF4560"],
+      colors: ["#FF4560","#3366FF"],
       markers: {
         size: 4,
         colors: ["#fff"],
-        strokeColors: ["#FF4560"],
+        strokeColors: ["#FF4560","#FF4560"],
         strokeWidth: 1
       },
       tooltip: {
