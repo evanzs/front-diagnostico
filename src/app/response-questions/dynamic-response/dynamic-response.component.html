@@ -62,8 +62,13 @@
   </mat-radio-group>
   <mat-divider  class="m-3"></mat-divider>    
   </div>  
+  <p class="font-weight-bold" style="font-weight: bolder;">
+    Você gostaria de justificar algumas das suas respostas nesta seção e dar exemplos de
+    iniciativas ou empresas que causem impacto positivo ou negativo  no sistema alimentar local?
+    Se sim, escreva no campo abaixo.
+  </p>
   <mat-form-field class="d-flex" >
-    <mat-label>Sugestões</mat-label>
+    <mat-label>Justificar</mat-label>
     <textarea  [formControlName]="guideline._id" matInput [value]="guideline.sugestion"></textarea>
   </mat-form-field> 
   </mat-expansion-panel>    
