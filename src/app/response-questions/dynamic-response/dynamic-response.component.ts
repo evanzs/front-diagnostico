@@ -1,11 +1,15 @@
 import { ConfirmDialogComponent } from './../../confirm-dialog/confirm-dialog.component';
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { Observable, map, startWith } from 'rxjs';
 import { Project } from 'src/app/models/project';
 import { Question } from 'src/app/models/question';
 import { ResponseQuestion } from 'src/app/models/response-question';
 import { ProjectService } from 'src/app/project.service';
+import {COMMA, E, ENTER} from '@angular/cdk/keycodes';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatChipInputEvent } from '@angular/material/chips';
 
 @Component({
   selector: 'app-dynamic-response',
@@ -17,7 +21,7 @@ export class DynamicResponseComponent implements OnInit,OnChanges{
 
   @Input() responseQuestion!: ResponseQuestion; // Passar o projeto como entrada para o componente
   @Input() indexPrinciple = 0
- 
+  @Output() nextPrinciple = new EventEmitter<number>();
   dynamicForm!: FormGroup;
   panelOpenState = false;
 
@@ -28,10 +32,13 @@ export class DynamicResponseComponent implements OnInit,OnChanges{
     btnText:""
 }
   radioItems = ['0','1','2','3','4','5','Não sei']
+  selectedTags = ['Produção','Processamento','Distruibuição']
   constructor(private formBuilder: FormBuilder,
     private _projectService:ProjectService,
     public dialog: MatDialog,
-    ) {}
+   
+    ) { }
+
 
   ngOnInit() {
     this.buildDynamicForm();
@@ -55,7 +62,7 @@ export class DynamicResponseComponent implements OnInit,OnChanges{
     });
   }
   saveForm() {
-    console.log(this.responseQuestion)
+
     const formData = this.dynamicForm.value;
     for (const questionId in formData) {
       if (formData.hasOwnProperty(questionId)) {
@@ -73,7 +80,6 @@ export class DynamicResponseComponent implements OnInit,OnChanges{
       }
     }
 
-    console.log(this.responseQuestion)
       if(this.responseQuestion._id)
         return this.update(this.responseQuestion._id);
     return this.create()
@@ -106,4 +112,26 @@ export class DynamicResponseComponent implements OnInit,OnChanges{
     data.text = text
     this.dialog.open(ConfirmDialogComponent,{data})
   }
+
+  eventoNextPrinciple(){
+    this.nextPrinciple.emit(this.indexPrinciple+1)
+  }
+
+  eventoPreviousPrinciple(){
+    if(this.indexPrinciple === 0){
+      return;
+    }
+    this.nextPrinciple.emit(this.indexPrinciple -1)
+  }
+
+  changeTags(event:any){
+    this.selectedTags = event.value
+  }  
+
+  aplicarFiltro(){
+   
+  }
+
 }
+
+

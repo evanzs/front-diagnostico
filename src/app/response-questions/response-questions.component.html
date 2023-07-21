@@ -1,1 +1,6 @@
-<app-dynamic-response [responseQuestion]="responseQuestion" [indexPrinciple]="indexPrinciple"></app-dynamic-response>
+<app-dynamic-response 
+    [responseQuestion]="responseQuestion" 
+    [indexPrinciple]="indexPrinciple"
+    (nextPrinciple)="nextPrinciple($event)"
+    >
+</app-dynamic-response>

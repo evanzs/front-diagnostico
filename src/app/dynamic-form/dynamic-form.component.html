@@ -17,7 +17,15 @@
 </mat-panel-description>
 </mat-expansion-panel-header >
 <div class="row m-3" *ngFor="let question of guideline.questions">     
-<p>{{question.ask}}</p>
+
+<div class="d-flex justify-content-between">
+  <p>{{question.ask}}</p> 
+  <mat-chip-listbox    aria-label="Dog selection">  
+     <mat-chip-option color="accent" selected>
+      {{question.tags}}
+     </mat-chip-option>
+    </mat-chip-listbox>
+</div>
 <mat-radio-group   [formControlName]="question._id"  [value]="question.rate" aria-label="Select an option">
   <mat-radio-button  *ngFor="let item of radioItems" 
       [value]="item"
@@ -49,6 +57,4 @@
     
     <mat-icon>keyboard_arrow_right</mat-icon>
   </button>
-
-
 </div>

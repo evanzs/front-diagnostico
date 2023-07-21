@@ -46,4 +46,12 @@ export class ResponseQuestionsComponent  implements OnInit{
       this.indexPrinciple =result     
   }
 
+  nextPrinciple(indexPrinciple:number){
+    let id = this.responseQuestion.principles[indexPrinciple]._id
+ 
+    if(!id){
+      this.responseQuestion.principles[0]._id
+    }  
+    this._router.navigate(['response/questions/'+id])
+  }
 }

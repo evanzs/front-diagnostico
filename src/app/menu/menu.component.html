@@ -1,4 +1,4 @@
-<div class="" *ngIf="enableMenuBar">
+<div class="overflow-auto" *ngIf="enableMenuBar">
   <mat-toolbar color="accent" class="navbar" *ngIf="enableMenuBar">
     <button mat-icon-button (click)="toggleMenu()">
       <mat-icon>menu</mat-icon>
@@ -64,7 +64,7 @@
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>
-<div class="" *ngIf="!enableMenuBar">
+<div class="overflow-auto" *ngIf="!enableMenuBar">
   <router-outlet></router-outlet>
 
 </div>

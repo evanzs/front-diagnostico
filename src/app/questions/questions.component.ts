@@ -56,14 +56,11 @@ export class QuestionsComponent implements OnInit{
   }
 
   nextPrinciple(indexPrinciple:number){
-    console.log(indexPrinciple)
-
     let id = this.project.principles[indexPrinciple]._id
  
     if(!id){
       this.project.principles[0]._id
-    }
-    console.log("dd",id)
+    }  
     this._router.navigate(['questions/'+id])
   }
 }

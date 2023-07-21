@@ -49,6 +49,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { ResultFilterComponent } from './result-filter/result-filter.component';
 import { ResultApexComponent } from './result-apex/result-apex.component';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatChipsModule} from '@angular/material/chips'; 
+import {MatAutocompleteSelectedEvent, MatAutocompleteModule} from '@angular/material/autocomplete';
 import { TableResponserComponent } from './result/table-responser/table-responser.component'; 
 @NgModule({
   declarations: [
@@ -100,8 +102,9 @@ import { TableResponserComponent } from './result/table-responser/table-response
     ReactiveFormsModule,
     NgApexchartsModule,
     MatSelectModule,
-    MatTabsModule
-
+    MatTabsModule,
+    MatChipsModule,
+    MatAutocompleteModule
   ],
   providers: [        { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     JwtHelperService,ProjectService,AuthService,AuthGuard],

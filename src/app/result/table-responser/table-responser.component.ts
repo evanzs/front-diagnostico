@@ -45,7 +45,7 @@ export class TableResponserComponent implements OnChanges{
         return {
           ask:question.ask,
           rate:question.rate,
-          tag:question.tag,
+          tag:question.tags,
           guidelineName:guideline.name,          
         }
       })
