@@ -27,7 +27,7 @@
       <mat-card-title class="d-flex flex-column">   
       </mat-card-title>
       <mat-card-subtitle >
-        <div>{{responseQuestion.principles[0].description}}</div>
+        <div>{{responseQuestion.principles[indexPrinciple].description}}</div>
    
       </mat-card-subtitle>
     </mat-card-header>
@@ -45,23 +45,26 @@
   </mat-panel-description>
   </mat-expansion-panel-header >
   <div class="row m-3" *ngFor="let question of guideline.questions">     
-    <div class="d-flex justify-content-between">
-      <p>{{question.ask}}</p> 
-      <mat-chip-listbox    aria-label="Dog selection">  
-         <mat-chip-option color="accent" selected>
-          {{question.tags}}
-         </mat-chip-option>
-        </mat-chip-listbox>
-    </div>
-  <mat-radio-group   [formControlName]="question._id"  [value]="question.rate" aria-label="Select an option">
-    <mat-radio-button  *ngFor="let item of radioItems" 
-        [value]="item"
-        [checked]="item == question.rate"
-     
-        >{{item}}</mat-radio-button>
+        {{selectedTags}}
+        
+        <div class="d-flex justify-content-between">
+          <p>{{question.ask}}</p> 
+          <mat-chip-listbox    aria-label="Dog selection">  
+             <mat-chip-option color="accent" selected>
+              {{question.tags}}
+             </mat-chip-option>
+            </mat-chip-listbox>
+        </div>
+      <mat-radio-group   [formControlName]="question._id"  [value]="question.rate" aria-label="Select an option">
+        <mat-radio-button  *ngFor="let item of radioItems" 
+            [value]="item"
+            [checked]="item == question.rate"
+         
+            >{{item}}</mat-radio-button>
+        
+      </mat-radio-group>
+      <mat-divider  class="m-3"></mat-divider>  
     
-  </mat-radio-group>
-  <mat-divider  class="m-3"></mat-divider>    
   </div>  
   <p class="font-weight-bold" style="font-weight: bolder;">
     Você gostaria de justificar algumas das suas respostas nesta seção e dar exemplos de
