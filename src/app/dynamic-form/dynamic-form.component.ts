@@ -52,7 +52,7 @@ export class DynamicFormComponent implements OnInit,OnChanges {
         const answer = formData[questionId];
       
         // Atualizar a taxa da pergunta correspondente no objeto 'project'
-        this.project.principles[0].guidelines.forEach((guideline) => {
+        this.project.principles[this.indexPrinciple].guidelines.forEach((guideline) => {
           if(guideline._id === questionId)
           guideline.sugestion= answer;
 
@@ -65,7 +65,7 @@ export class DynamicFormComponent implements OnInit,OnChanges {
     }
     this._projectService.updateCreatorResponse(this.project._id,this.project).subscribe({
       next:(project)=>{
-        this._snackBar.open("Questionário Salvo!","Fechar",{duration:60000000})
+        this._snackBar.open("Questionário Salvo!","Fechar",{duration:6000})
       }
     })
   }
