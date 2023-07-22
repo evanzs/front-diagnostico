@@ -3,7 +3,8 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LoginService } from '../login/login.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-register',
@@ -18,6 +19,7 @@ export class RegisterComponent {
     private formBuilder: FormBuilder,
     private _loginService:LoginService,
     public dialogRef: MatDialogRef<RegisterComponent>,
+    public dialog: MatDialog
 
     ) {
     this.registerForm = this.formBuilder.group({
@@ -39,8 +41,14 @@ export class RegisterComponent {
             this.dialogRef.close();
             this.router.navigate(['login']);
           },
-          error:()=>{
-            this._snackBar.open("Não foi possivel realizar o registro.", 'fechar',{duration:10000});
+          error:({error})=>{
+            const data = {
+              text: error?.message,
+              title:"Erro ao realizar registro!",
+              btnText:"",
+              btnVisible:false
+            }
+            const dialogRef = this.dialog.open(ConfirmDialogComponent,{data})
           }
         })
       }else{
