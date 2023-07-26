@@ -81,9 +81,7 @@ export class AuthService {
   }
 
   responserValidate(){
-    console.log("opa")
     let response = this._projectService.getEnvResponse();
-    console.log("opa",response)
 
     if(!response){
       const  localResponse = this._projectService.getStorageResponseQuestion();
@@ -103,8 +101,9 @@ export class AuthService {
      if(!project){
        const  localProject = this._projectService.getStorageProject();
       if(localProject){
-        this.enableMenuResponser();         
+        this.enableMenu();         
         this._projectService.loadProject(localProject)
+      
         return true;
       }        
      }   
