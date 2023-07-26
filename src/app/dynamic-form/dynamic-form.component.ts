@@ -24,6 +24,7 @@ export class DynamicFormComponent implements OnInit,OnChanges {
 
   ngOnInit() {
     this.buildDynamicForm();
+
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -46,7 +47,6 @@ export class DynamicFormComponent implements OnInit,OnChanges {
   saveForm() {
 
     const formData = this.dynamicForm.value;
-    console.log("teste",formData)
     for (const questionId in formData) {
       if (formData.hasOwnProperty(questionId)) {
         const answer = formData[questionId];
@@ -82,3 +82,4 @@ export class DynamicFormComponent implements OnInit,OnChanges {
   }
 
 }
+
