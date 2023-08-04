@@ -1,6 +1,8 @@
- <app-dynamic-form [project]="project" 
-                   [indexPrinciple]="indexPrinciple"
-                (nextPrinciple)="nextPrinciple($event)"
+<div *ngIf="exist">
+   <app-dynamic-form [project]="project" 
+   [indexPrinciple]="indexPrinciple"
+(nextPrinciple)="nextPrinciple($event)"
 
 >
 </app-dynamic-form>
+</div>
