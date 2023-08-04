@@ -58,7 +58,7 @@
   <button class="mx-2" mat-fab color="primary" matTooltip="Salvar" type="submit" (click)="  saveForm()">
     <mat-icon>save</mat-icon>
   </button>
-  <button mat-fab color="warn" matTooltip="Próximo" type="button" (click)="eventoNextPrinciple()">
+  <button mat-fab color="warn" matTooltip="Próximo" type="button" [hidden]="indexPrinciple === project.principles.length -1 "   (click)="eventoNextPrinciple()">
     
     <mat-icon>keyboard_arrow_right</mat-icon>
   </button>
