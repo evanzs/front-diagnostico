@@ -12,7 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class DynamicFormComponent implements OnInit,OnChanges {
   @Input() project!: Project; // Passar o projeto como entrada para o componente
-  @Input() indexPrinciple = 0
+  @Input() indexPrinciple = -1
   @Output() nextPrinciple = new EventEmitter<number>();
   dynamicForm!: FormGroup;
   panelOpenState = false;
@@ -23,11 +23,13 @@ export class DynamicFormComponent implements OnInit,OnChanges {
     private _snackBar: MatSnackBar) {}
 
   ngOnInit() {
+    this.indexPrinciple = 0;
     this.buildDynamicForm();
 
   }
 
   ngOnChanges(changes: SimpleChanges) {
+
     if (changes['indexPrinciple'] && !changes['indexPrinciple'].firstChange) {
       this.buildDynamicForm();
     }
@@ -75,9 +77,7 @@ export class DynamicFormComponent implements OnInit,OnChanges {
   }
 
   eventoPreviousPrinciple(){
-    if(this.indexPrinciple === 0){
-      return;
-    }
+  
     this.nextPrinciple.emit(this.indexPrinciple -1)
   }
 
