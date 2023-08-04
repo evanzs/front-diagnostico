@@ -42,16 +42,21 @@ export class ResponseQuestionsComponent  implements OnInit{
 
   findIndexPrinciple(id:string){
     const result = this.responseQuestion.principles.findIndex( p => p._id === id)
-    if(result)
+    if(result || result === 0)
       this.indexPrinciple =result     
   }
 
   nextPrinciple(indexPrinciple:number){
+
+    if(indexPrinciple >= this.responseQuestion.principles.length)
+        return;
+
     let id = this.responseQuestion.principles[indexPrinciple]._id
- 
+   
     if(!id){
       this.responseQuestion.principles[0]._id
     }  
+
     this._router.navigate(['response/questions/'+id])
   }
 }
