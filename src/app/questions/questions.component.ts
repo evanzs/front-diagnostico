@@ -27,21 +27,24 @@ export class QuestionsComponent implements OnInit{
     private readonly _router:Router){}
     project!:Project;
     indexPrinciple:number = 0;
+    exist = true;
+
 
   ngOnInit(): void {
     this._authService.getEmitirUserApp().subscribe( (user) => {this.user = user})
-
     this._route.params 
     .subscribe({
       next:(params) =>{
+        this.exist = false;
+  
         this.project = this._projectService.getEnvProject()
-
         if(!this.project)
           this._router.navigate(['/home'])
 
           
         this._projectService.setProject( this.project)   
         this.findIndexPrinciple(params['id'])     
+        this.exist = true;
       }
     })
  
@@ -50,14 +53,21 @@ export class QuestionsComponent implements OnInit{
 
   findIndexPrinciple(id:string){
     const result = this.project.principles.findIndex( p => p._id === id)
-    console.log("result",result)
-    if(result)
-      this.indexPrinciple =result     
+
+
+    if(result || result === 0){
+   
+      this.indexPrinciple =result
+    }
+         
   }
 
   nextPrinciple(indexPrinciple:number){
+
+    if(indexPrinciple >= this.project.principles.length )
+        return;
     let id = this.project.principles[indexPrinciple]._id
- 
+
     if(!id){
       this.project.principles[0]._id
     }  
