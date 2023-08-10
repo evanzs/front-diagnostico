@@ -1,35 +1,39 @@
-<div class="container">
-  <div class="login-container">
-    <mat-card class="align-items-center">
-      <mat-card-header class="m-1">
-        <mat-card-title>Login</mat-card-title>
-      </mat-card-header>
-      <mat-card-content  class="align-items-center w-100">
-        <!-- Formulário de login -->
-        <form  [formGroup]="formLogin" (keyup.enter)="submitLogin()"  class="m-3" >
-          <mat-form-field class="w-100">
-            <mat-label>Email</mat-label>
-            <input formControlName="email" matInput placeholder="usuario@usuario.com" type="email">
-          </mat-form-field>
-          <mat-form-field class="w-100">
-            <mat-label>Senha</mat-label>
-            <input formControlName="password"  matInput placeholder="Senha" type="password">
-          </mat-form-field>
-
-        </form>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-raised-button color="accent" [disabled]="formLogin.invalid" (click)="submitLogin()">Entrar</button>
-      </mat-card-actions>
-      <div class="row my-4">
-        <button mat-raised-button color="primary" (click)="openDialog()">Responder</button>
-      
-      </div>
-<div class="row my-4">
-  <button mat-button (click)="openDialogRegister()" color="primary">Registrar</button>
-
-</div>
-    </mat-card>
-
+<div *ngIf="!loading">
+  <div class="container">
+    <div class="login-container">
+      <mat-card class="align-items-center">
+        <mat-card-header class="m-1">
+          <mat-card-title>Login</mat-card-title>
+        </mat-card-header>
+        <mat-card-content  class="align-items-center w-100">
+          <!-- Formulário de login -->
+          <form  [formGroup]="formLogin" (keyup.enter)="submitLogin()"  class="m-3" >
+            <mat-form-field class="w-100">
+              <mat-label>Email</mat-label>
+              <input formControlName="email" matInput placeholder="usuario@usuario.com" type="email">
+            </mat-form-field>
+            <mat-form-field class="w-100">
+              <mat-label>Senha</mat-label>
+              <input formControlName="password"  matInput placeholder="Senha" type="password">
+            </mat-form-field>
+  
+          </form>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="accent" [disabled]="formLogin.invalid" (click)="submitLogin()">Entrar</button>
+        </mat-card-actions>
+        <div class="row my-4">
+          <button mat-raised-button color="primary" (click)="openDialog()">Responder</button>
+        
+        </div>
+  <div class="row my-4">
+    <button mat-button (click)="openDialogRegister()" color="primary">Registrar</button>
+  
   </div>
+      </mat-card>
+  
+    </div>
+  </div>
+  
 </div>
+<app-modal-loading [loading]="loading"></app-modal-loading>
