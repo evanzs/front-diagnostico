@@ -46,7 +46,6 @@ export class MenuComponent implements OnInit{
      this._loginService.emitEventoenableMenuResponser.subscribe( (enableMenuResponser) => {this.enableMenuResponser = enableMenuResponser})
      this.project$ = this._projectService.getSelectedProject();
      this.response$ = this._projectService.getSelectedResponse();
-     //this.loadUser();   
     }
 
   loadUser():void{

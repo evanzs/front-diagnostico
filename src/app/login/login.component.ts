@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component, EventEmitter, Output} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from './login.service';
@@ -15,6 +15,7 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.compone
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+  loading =false
 
   constructor(private router: Router,
     private readonly _service:LoginService, 
@@ -30,20 +31,27 @@ export class LoginComponent {
 
 
   submitLogin(){
- 
-    if(this.formLogin.invalid)
-      return;
+    this.loading =true
+      if(this.formLogin.invalid) {
+        this.loading = false;
+        return;
+      }
+
     const {email,password} =this.formLogin.value;
       this._service.logIn({email,password}).subscribe({ 
       next: (res)=>{  
-        this._authService.setToken(res.access_token)      
-        this._authService.getUserToken()      
+        this._authService.setToken(res.access_token)  
+        const user = this._authService.getUserToken()       
 
-        this._service.enableMenuNav()
-        this._service.enableMenuBar()
-        this.router.navigate(['/home'])
-      },
+        if(user){  
+          this._service.enableMenuNav()
+          this._service.enableMenuBar()       
+          this.router.navigate(['/home'])
+        }
+
+      },  
       error:({error}) =>{   
+        this.loading = false
         const data = {
           text: error?.message,
           title:"Erro ao realizar login!",
@@ -51,6 +59,7 @@ export class LoginComponent {
           btnVisible:false
         }
         const dialogRef = this.dialog.open(ConfirmDialogComponent,{data})
+
       }
     })
   
