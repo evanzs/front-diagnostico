@@ -50,8 +50,9 @@ import { ResultFilterComponent } from './result-filter/result-filter.component';
 import { ResultApexComponent } from './result-apex/result-apex.component';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatChipsModule} from '@angular/material/chips'; 
-import {MatAutocompleteSelectedEvent, MatAutocompleteModule} from '@angular/material/autocomplete';
 import { TableResponserComponent } from './result/table-responser/table-responser.component'; 
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { ModalLoadingComponent } from './modal-loading/modal-loading.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -72,7 +73,8 @@ import { TableResponserComponent } from './result/table-responser/table-response
     ChartsChartsjsComponent,
     ResultFilterComponent,
     ResultApexComponent,
-    TableResponserComponent
+    TableResponserComponent,
+    ModalLoadingComponent
   ],
   imports: [
     BrowserModule,
@@ -104,7 +106,8 @@ import { TableResponserComponent } from './result/table-responser/table-response
     MatSelectModule,
     MatTabsModule,
     MatChipsModule,
-    MatAutocompleteModule
+    MatProgressSpinnerModule
+    
   ],
   providers: [        { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     JwtHelperService,ProjectService,AuthService,AuthGuard],
