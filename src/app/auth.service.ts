@@ -53,7 +53,8 @@ export class AuthService {
     
     const newUser = {email:decodedToken.email,id:decodedToken.id,projects:decodedToken.projectIds,userName:decodedToken.username,responser:decodedToken.responser,admin:decodedToken.admin};
     this.setUser(newUser)
-    return this.emitirUserApp.next(newUser);
+    this.emitirUserApp.next(newUser);
+    return this.userApp
   }
 
   setUser(user: any): void {
@@ -62,7 +63,13 @@ export class AuthService {
 
   getUser() {
     if(!this.userApp){
-      this.getUserToken();    
+      const user = this.getUserToken();    
+        if(user)    
+        {
+          this.userApp = user;
+          return this.userApp
+        }
+
     }
     return this.userApp;
   }
