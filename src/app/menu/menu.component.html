@@ -1,69 +1,72 @@
-<div class="overflow-auto" *ngIf="enableMenuBar && user ">
-  <mat-toolbar color="accent" class="navbar" *ngIf="enableMenuBar">
-    <button mat-icon-button (click)="toggleMenu()">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <span class="spacer"></span>
-    {{user.userName}}
-    <button mat-icon-button>  
-      <mat-icon>account_circle</mat-icon>
-    </button>  
-  </mat-toolbar>  
-  <mat-sidenav-container class="sidenav-container" >
-    <mat-sidenav mode="over" [(opened)]="isMenuOpen" class="sidenav">
-      <mat-nav-list>
-       <div class="" *ngIf="enableMenuNav">
-        <a mat-list-item routerLink="/home">Diagnóstico</a>
-        <div  *ngIf="project$  | async as project">
-          <mat-accordion>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Princípios
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-           <div *ngFor="let principle of project.principles">
-            <a mat-list-item (click)="openPrinciple(principle._id) ">{{principle.name}}</a>
-           </div>
-            </mat-expansion-panel>
-          </mat-accordion>
-          <a mat-list-item routerLink="/result-filter">Resultado</a>   
-          <a mat-list-item routerLink="/responses" >Participantes</a>    
-
-        </div> 
-        <a mat-list-item (click)="onClose()">Sair</a>   
-
-        </div> 
-   
-
+<div class="overflow-auto" *ngIf="enableMenuBar">
+  <div *ngIf="enableMenuBar">
+    <mat-toolbar color="accent" class="navbar" *ngIf="enableMenuBar">
+      <button mat-icon-button (click)="toggleMenu()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span class="spacer"></span>
+      {{user?.userName}}
+      <button mat-icon-button>  
+        <mat-icon>account_circle</mat-icon>
+      </button>  
+    </mat-toolbar>  
+    <mat-sidenav-container class="sidenav-container" >
+      <mat-sidenav mode="over" [(opened)]="isMenuOpen" class="sidenav">
+        <mat-nav-list>
+         <div class="" *ngIf="enableMenuNav">
+          <a mat-list-item routerLink="/home">Diagnóstico</a>
+          <div  *ngIf="project$  | async as project">
+            <mat-accordion>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Princípios
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+             <div *ngFor="let principle of project.principles">
+              <a mat-list-item (click)="openPrinciple(principle._id) ">{{principle.name}}</a>
+             </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+            <a mat-list-item routerLink="/result-filter">Resultado</a>   
+            <a mat-list-item routerLink="/responses" >Participantes</a>    
+  
+          </div> 
+          <a mat-list-item (click)="onClose()">Sair</a>   
+  
+          </div> 
      
-
-
-       <!-- CLIENTE MENU -->
-       <div class="" *ngIf="enableMenuResponser">
-        <div  *ngIf="response$  | async as response">
-          <mat-accordion>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                 Responder
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-           <div *ngFor="let principle of response.principles">
-            <a mat-list-item (click)="openResponserQuestion(principle._id) ">{{principle.name}}</a>
-           </div>
-            </mat-expansion-panel>
-          </mat-accordion>
-          <a mat-list-item routerLink="/login">Sair</a>   
-        </div>     
-       </div>
-      </mat-nav-list>  
-    </mat-sidenav>
-    <mat-sidenav-content class="container">
-        <router-outlet></router-outlet>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
+  
+       
+  
+  
+         <!-- CLIENTE MENU -->
+         <div class="" *ngIf="enableMenuResponser">
+          <div  *ngIf="response$  | async as response">
+            <mat-accordion>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                   Responder
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+             <div *ngFor="let principle of response.principles">
+              <a mat-list-item (click)="openResponserQuestion(principle._id) ">{{principle.name}}</a>
+             </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+            <a mat-list-item (click)="onClose()">Sair</a>   
+          </div>     
+         </div>
+        </mat-nav-list>  
+      </mat-sidenav>
+      <mat-sidenav-content class="container">
+          <router-outlet></router-outlet>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
 </div>
+
 <div class="overflow-auto" *ngIf="!enableMenuBar">
   <router-outlet></router-outlet>
 
