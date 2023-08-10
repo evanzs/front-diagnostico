@@ -20,7 +20,7 @@ import { Principle } from '../models/principle';
 export class KeyDailogComponent implements OnInit {
   meetupForm!: FormGroup;
   userApp!:UserApp
-
+  loading = false;
   constructor(
     private _loginService:LoginService,
     private readonly _projectService:ProjectService,
@@ -41,7 +41,7 @@ export class KeyDailogComponent implements OnInit {
 
   confirmSubmit(){
     if(this.meetupForm.valid){
-
+      this.loading = true
       this._loginService.loginResponse(this.meetupForm.value).subscribe({
         next:(res) => {
           this._authService.setToken(res.access_token)      
@@ -57,6 +57,8 @@ export class KeyDailogComponent implements OnInit {
  
         },
         error: () =>{
+          this.loading = false;
+
             this._snackBar.open("Não foi possivel carregar o diagnostico.","Fechar")
         }
       })
@@ -66,9 +68,11 @@ export class KeyDailogComponent implements OnInit {
   newLogin(key:string){     
     this._projectService.getProjectById(key).subscribe({
       next: (project)=>{
-      this.builderResponse('',key,project.principles)          
+        this.loading = true 
+        this.builderResponse('',key,project.principles)          
       },
       error:() =>{
+        this.loading = false;
         this._snackBar.open("Não foi possivel carregar o diagnostico.","Fechar",{duration:10000})
       }
     });    
@@ -77,9 +81,11 @@ export class KeyDailogComponent implements OnInit {
   getResponse(password:string){
     this._projectService.getResponseById(password).subscribe({
       next: (res)=>{
-      this.builderResponse(res._id,res?.projectId,res.principles)          
+        this.loading = true 
+        this.builderResponse(res._id,res?.projectId,res.principles)         
       },
       error:() =>{
+        this.loading = false;
         this._snackBar.open("Não foi possivel carregar o diagnostico.","Fechar",{duration:10000})
       }
     });  
