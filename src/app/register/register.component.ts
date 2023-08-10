@@ -13,7 +13,7 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.compone
 })
 export class RegisterComponent {
   registerForm: FormGroup;
-
+  loading = false;
   constructor(private _snackBar: MatSnackBar,
     private router:Router,  
     private formBuilder: FormBuilder,
@@ -33,15 +33,20 @@ export class RegisterComponent {
 
   onSubmit() {
     if (this.registerForm.valid) {
+      this.loading = true;
       const isValid = this.checkPassword();
       if(isValid){
         this._loginService.createUser(this.registerForm.value).subscribe({
           next:()=>{
             this._snackBar.open("Usuário registrado com sucesso.", 'fechar',{duration:10000,panelClass: 'snackbar-success'});
+            this.loading = false;
+
             this.dialogRef.close();
             this.router.navigate(['login']);
           },
           error:({error})=>{
+            this.loading = false;
+
             const data = {
               text: error?.message,
               title:"Erro ao realizar registro!",
@@ -52,6 +57,8 @@ export class RegisterComponent {
           }
         })
       }else{
+        this.loading = false;
+
         this._snackBar.open("As senhas não coincidem.", 'fechar',{duration:10000});
 
       }
