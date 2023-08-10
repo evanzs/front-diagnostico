@@ -16,7 +16,7 @@ import { ResponseQuestion } from '../models/response-question';
 })
 export class MenuComponent implements OnInit{
 
-  @Input() user!:UserApp;
+  user!:UserApp;
 
   constructor(
     private readonly _projectService:ProjectService,
@@ -38,15 +38,28 @@ export class MenuComponent implements OnInit{
 
 
   ngOnInit(): void {  
-     this._loginService.emitEventoEnableMenuBar.subscribe( (enableMenuBar) => {this.enableMenuBar = enableMenuBar})
+     this._loginService.emitEventoEnableMenuBar.subscribe( (enableMenuBar) => {
+      this.user = this._authService.getUser();
+      this.enableMenuBar = enableMenuBar
+    })
      this._loginService.emitEventoEnableMenuNav.subscribe( (enableMenuNav) => {this.enableMenuNav = enableMenuNav})
      this._loginService.emitEventoenableMenuResponser.subscribe( (enableMenuResponser) => {this.enableMenuResponser = enableMenuResponser})
      this.project$ = this._projectService.getSelectedProject();
      this.response$ = this._projectService.getSelectedResponse();
-     this.user = this._authService.getUser();
-   
+     //this.loadUser();   
     }
 
+  loadUser():void{
+    this.user = this._authService.getUser();
+    if(!this.user)
+    {
+      this.enableMenuBar = false
+      this.enableMenuNav = false;
+      this.enableMenuResponser = false;
+      this.onClose()    
+    }
+
+  }
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
   }
