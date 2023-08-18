@@ -2,14 +2,13 @@ import { ConfirmDialogComponent } from './../../confirm-dialog/confirm-dialog.co
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable, map, startWith } from 'rxjs';
-import { Project } from 'src/app/models/project';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Guideline } from 'src/app/models/guideline';
 import { Question } from 'src/app/models/question';
 import { ResponseQuestion } from 'src/app/models/response-question';
+import { tagsApp } from 'src/app/models/tags-map';
 import { ProjectService } from 'src/app/project.service';
-import {COMMA, E, ENTER} from '@angular/cdk/keycodes';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatChipInputEvent } from '@angular/material/chips';
+
 
 @Component({
   selector: 'app-dynamic-response',
@@ -24,7 +23,7 @@ export class DynamicResponseComponent implements OnInit,OnChanges{
   @Output() nextPrinciple = new EventEmitter<number>();
   dynamicForm!: FormGroup;
   panelOpenState = false;
-
+  disabledTagFilter = false;
   confirmData = {
     title:"Chave para continuar respondendo.",
     text:"",
@@ -36,20 +35,35 @@ export class DynamicResponseComponent implements OnInit,OnChanges{
   constructor(private formBuilder: FormBuilder,
     private _projectService:ProjectService,
     public dialog: MatDialog,
+    private _snackBar: MatSnackBar
    
     ) { }
 
-
+  
+  tagFilter = ['']
   ngOnInit() {
     this.indexPrinciple = 0
+    this.verifyEdit()
     this.buildDynamicForm();
+    this.setTagFilter()
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes)
     if (changes['indexPrinciple'] && !changes['indexPrinciple'].firstChange) {
       this.buildDynamicForm();
     }
+  }
+
+  verifyEdit():void{
+    if(this.responseQuestion._id){
+      this.disabledTagFilter = true;
+    }
+    
+  }
+
+  setTagFilter(){
+    this.tagFilter = this.responseQuestion.tagFilter[0].length ? this.responseQuestion.tagFilter :   this.selectedTags
+    this.selectedTags = this.tagFilter
   }
 
   buildDynamicForm() {
@@ -57,30 +71,40 @@ export class DynamicResponseComponent implements OnInit,OnChanges{
     const guidelines = this.responseQuestion.principles[this.indexPrinciple].guidelines;
     guidelines.forEach((guideline: any) => {
       guideline.questions.forEach((question: Question) => {
+
+
         this.dynamicForm.addControl(question._id, this.formBuilder.control(question.rate));
       });
       this.dynamicForm.addControl(guideline._id, this.formBuilder.control(guideline.sugestion));
 
     });
   }
+
   saveForm() {
 
     const formData = this.dynamicForm.value;
     for (const questionId in formData) {
+      
       if (formData.hasOwnProperty(questionId)) {
         const answer = formData[questionId];
 
         // Atualizar a taxa da pergunta correspondente no objeto 'project'
-        this.responseQuestion.principles[0].guidelines.forEach((guideline) => {
+        this.responseQuestion.principles[this.indexPrinciple].guidelines.forEach((guideline) => {
           if(guideline._id === questionId)
-          guideline.sugestion= answer;
+              guideline.sugestion= answer;
           const question = guideline.questions.find((q) => q._id === questionId);
+
           if (question) {
-            question.rate = answer;
+
+              question.rate = answer;
+              
           }
         });
       }
     }
+    this.disabledTagFilter = true;
+    this.responseQuestion.tagFilter = this.selectedTags;
+
 
       if(this.responseQuestion._id)
         return this.update(this.responseQuestion._id);
@@ -95,7 +119,6 @@ export class DynamicResponseComponent implements OnInit,OnChanges{
       this.responseQuestion = res
         this.openDialog(res?._id)
       }
-
     });
 
   }
@@ -129,7 +152,52 @@ export class DynamicResponseComponent implements OnInit,OnChanges{
   }  
 
   aplicarFiltro(){
-   
+    const data = {
+      title: "Deseja aplicar filtro nesse projeto?",
+      text:"O filtro aplicado será definitivo se for salvo.",
+      btnText:"Confirmar",
+      btnVisible:true
+    }
+    const dialogRef = this.dialog.open(ConfirmDialogComponent,{data})
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.tagFilter = this.selectedTags;
+      }
+      return;
+    });
+
+  }  
+
+  validateTag(tag:string[]):boolean{
+    const tagFiltred = tagsApp.find( t => t.tag[0] === tag[0])?.filters ?? []
+ 
+    if(tag.length <= 0 )
+      return true;
+    if(!this.tagFilter.includes(tagFiltred[0]))
+        return false;
+
+
+    return true;
+  }
+
+  validateGuideline(guideline:Guideline):boolean{
+    let result = false;
+    const tags = this.getTagsByGuideline(guideline)
+
+    tags.map( (t) => {
+      if(this.validateTag([t])){
+        result = true;
+      }
+    })
+    return result;
+  }
+
+  getTagsByGuideline(guideline:Guideline):string[] {     
+      const tags = [];  
+      for (const question of guideline.questions) {
+        tags.push(...question.tags);
+      }   
+    return tags;
   }
 
 }
