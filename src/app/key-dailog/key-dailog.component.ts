@@ -4,13 +4,14 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserApp } from '../models/userApp';
 import { ProjectService } from '../project.service';
 import { LoginService } from '../login/login.service';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../auth.service';
 import { Observable } from 'rxjs';
 import { Project } from '../models/project';
 import { Principle } from '../models/principle';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-key-dailog',
@@ -28,6 +29,7 @@ export class KeyDailogComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private readonly _authService:AuthService,
     public dialogRef: MatDialogRef<KeyDailogComponent>,
+    public dialog: MatDialog
     ){}
 
 
@@ -56,11 +58,16 @@ export class KeyDailogComponent implements OnInit {
           } 
  
         },
-        error: () =>{
+        error: ({error}) =>{
           this.loading = false;
 
-            this._snackBar.open("Não foi possivel carregar o diagnostico.","Fechar")
-        }
+          const data = {
+            text: error?.message,
+            title:"Ah, não!",
+            btnText:"",
+            btnVisible:false
+          }
+          const dialogRef = this.dialog.open(ConfirmDialogComponent,{data})        }
       })
     }
   }
@@ -69,11 +76,17 @@ export class KeyDailogComponent implements OnInit {
     this._projectService.getProjectById(key).subscribe({
       next: (project)=>{
         this.loading = true 
-        this.builderResponse('',key,project.principles)          
+        this.builderResponse('',key,project.principles,[''])          
       },
-      error:() =>{
+      error:({error}) =>{
         this.loading = false;
-        this._snackBar.open("Não foi possivel carregar o diagnostico.","Fechar",{duration:10000})
+        const data = {
+          text: error?.message,
+          title:"Ah, não!",
+          btnText:"",
+          btnVisible:false
+        }
+        const dialogRef = this.dialog.open(ConfirmDialogComponent,{data})       
       }
     });    
   }
@@ -82,21 +95,38 @@ export class KeyDailogComponent implements OnInit {
     this._projectService.getResponseById(password).subscribe({
       next: (res)=>{
         this.loading = true 
-        this.builderResponse(res._id,res?.projectId,res.principles)         
+        this.builderResponse(res._id,res?.projectId,res.principles,res.tagFilter)         
       },
-      error:() =>{
+      error:({error}) =>{
         this.loading = false;
-        this._snackBar.open("Não foi possivel carregar o diagnostico.","Fechar",{duration:10000})
+        const data = {
+          text: error?.message,
+          title:"Ah, não!",
+          btnText:"",
+          btnVisible:false
+        }
+        const dialogRef = this.dialog.open(ConfirmDialogComponent,{data})        
       }
     });  
   }
 
-  builderResponse(responseId:string = '',projectId:string,principles:Principle[]):void{  
+  builderResponse(responseId:string = '',projectId:string,principles:Principle[],tagFilter:string[]):void{  
+    if(!responseId){
+      principles = principles.map( principle =>{
+        principle.guidelines.map(guideline => {
+          guideline.questions.map(question => {
+            question.rate = ""
+          })
+        })
+        return principle
+      })     
+    }
     const response = {
       projectId:projectId,
       completed:false,
       principles:principles,
-      _id:responseId
+      _id:responseId,
+      tagFilter:tagFilter
     }
     this._loginService.enableMenuBar()  
     this._loginService.disableMenuNav();   
@@ -107,7 +137,8 @@ export class KeyDailogComponent implements OnInit {
 
     if(id){
       this._router.navigate(['response/questions/'+id])
-      this.dialogRef.close();    }
+      this.dialogRef.close();   
+    }
 
   }
 }

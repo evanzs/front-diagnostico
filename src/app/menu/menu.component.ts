@@ -64,7 +64,6 @@ export class MenuComponent implements OnInit{
   }
 
   openPrinciple(id:string){
-    console.log("open",id)
     this._router.navigate(['/questions',id])
   }
 
