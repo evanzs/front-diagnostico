@@ -12,7 +12,6 @@ constructor() { }
   private emissor$ = new Subject<Principle[]>();
 
   emitValor(valor:Principle[]){
-    console.log("valor",valor)
     this.emissor$.next(valor)
   }
 

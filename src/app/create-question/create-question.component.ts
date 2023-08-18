@@ -125,7 +125,6 @@ export class CreateQuestionComponent {
   addPrinciple(): void {
     if (this.principleForm.valid) {
       // Processar os dados do formulário
-      console.log(this.principleForm.value);
 
       this.appService.emitValor(this.principleForm.value)
       this.principleForm.reset();
