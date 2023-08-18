@@ -42,6 +42,7 @@ export class ResultFilterComponent implements OnInit {
           this._projectservice.loadProject(this.project)
         }
         this._resultService.getResultByProjectId(this.project?._id).subscribe((res) =>{
+         
           this.result = res;
           this.transformDataCreator(res)
           this.transformDataResponses(res)
