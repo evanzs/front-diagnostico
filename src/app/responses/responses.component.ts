@@ -20,7 +20,7 @@ export class ResponsesComponent implements OnInit {
 
   id!:string;
   responseQuestion!:ResponseQuestion[]
-
+  dataEmpty = [ {result: "Sem Registro"}]
   constructor(private readonly _authService:AuthService,
     private readonly _projectService:ProjectService,
     private readonly _responsesServices:ResponsesService,
@@ -33,13 +33,13 @@ export class ResponsesComponent implements OnInit {
 
 
   displayedColumns: string[] = ['email', 'createdAt','completed','acoes'];
+  displayedColumnsEmpty: string[] = ['result'];
 
   ngOnInit(): void {
     this.project = this._projectService.getEnvProject();
     this.getResponseByProjectId();
     
   }
-
 
   getResponseByProjectId(){
     if(!this.project)
@@ -50,6 +50,7 @@ export class ResponsesComponent implements OnInit {
       this.responseQuestion = res;
     },
     error:() =>{
+      this._snackBar.open("Não foi possível carregar as respostas.Tente novamente mais tarde!","fechar",{duration:10000})
       this._router.navigate(['home'])
     }
    })
@@ -61,7 +62,7 @@ export class ResponsesComponent implements OnInit {
     if(!id)
         return ;
     const data = {
-      text: "Deseja deletar esse projeto?",
+      text: "Deseja deletar essa resposta?",
       title:"Deletar",
       btnText:"Deletar",
       btnVisible:true
@@ -70,10 +71,15 @@ export class ResponsesComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        this._responsesServices.delete(id).subscribe((res)=>{
-          this.getResponseByProjectId();
+        this._responsesServices.delete(id).subscribe({
+        next: () => {
+            this.getResponseByProjectId();
+            this._snackBar.open("Resposta deletada","fechar",{duration:10000})
+        },
+        error:() =>{         
+           this._snackBar.open("Não foi possível deletar a resposta.Tente novamente mais tarde!","fechar",{duration:10000})
+        }
         })
-        this._snackBar.open("Projeto deletado!","fechar",{duration:10000})
 
       }
       return;
@@ -83,5 +89,6 @@ export class ResponsesComponent implements OnInit {
     const data = project
     this.dialog.open(ResultComponent,{data})
   }
+
 
 }
