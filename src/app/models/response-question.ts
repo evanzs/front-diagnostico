@@ -10,4 +10,5 @@ export interface ResponseQuestion {
     createdAt?:Date,
     UpdateAt?:Date,
     email?:string;
+    tagFilter:string[]
   }
