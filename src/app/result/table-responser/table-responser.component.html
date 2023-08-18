@@ -19,7 +19,7 @@
         <!-- Weight Column -->
         <ng-container matColumnDef="rate">
           <th mat-header-cell *matHeaderCellDef> Resposta </th>
-          <td mat-cell *matCellDef="let element"> {{element.rate}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.rate.length > 0 ?  element.rate : "Sem Resposta"}} </td>
         </ng-container>
       
     
