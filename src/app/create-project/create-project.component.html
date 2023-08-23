@@ -12,20 +12,22 @@
                 <mat-form-field class="">
                     <input matInput placeholder="Nome" formControlName="name">
                     <mat-error class="m-0 p-0 font-weight-bold"*ngIf="meetupForm.get('name')?.hasError('required')">Nome é obrigatório</mat-error>
-
                 </mat-form-field>
          
 
-                  <mat-form-field class="mt-3">
-                <textarea matInput placeholder="Descrição" formControlName="description"></textarea>
-              </mat-form-field>
+                <mat-form-field class="mt-3">
+                  <textarea matInput placeholder="Descrição" formControlName="description"></textarea>
+                  <mat-error class="m-0 p-0 font-weight-bold"*ngIf="meetupForm.get('description')?.hasError('required')">Descrição é obrigatório</mat-error>
+                </mat-form-field>
             
               <mat-form-field class="mt-3">
                 <input matInput placeholder="Razão" formControlName="reason">
+                <mat-error class="m-0 p-0 font-weight-bold"*ngIf="meetupForm.get('reason')?.hasError('required')">Razão é obrigatório</mat-error>
               </mat-form-field>
             
               <mat-form-field class="mt-3">
                 <input matInput placeholder="Cidade" formControlName="city">
+                <mat-error class="m-0 p-0 font-weight-bold"*ngIf="meetupForm.get('city')?.hasError('required')">Cidade é obrigatório</mat-error>
               </mat-form-field>
             </div>          
   
