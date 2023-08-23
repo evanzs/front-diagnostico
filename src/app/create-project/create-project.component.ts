@@ -30,9 +30,9 @@ export class CreateProjectComponent implements OnInit,AfterViewInit {
   ngOnInit(): void {
     this.meetupForm = new FormGroup({
       name: new FormControl('',Validators.required),
-      description: new FormControl(''),
-      reason: new FormControl(''),
-      city: new FormControl('')
+      description: new FormControl('',Validators.required),
+      reason: new FormControl('',Validators.required),
+      city: new FormControl('',Validators.required)
     });
 
     this.userApp = this._authService.getUser();
