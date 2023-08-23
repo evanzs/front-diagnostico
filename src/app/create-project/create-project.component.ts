@@ -6,6 +6,8 @@ import { ProjectService } from '../project.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../auth.service';
 import { Project } from '../models/project';
+import { City } from '../models/city';
+import { STATES_BR } from '../models/state-options';
 
 @Component({
   selector: 'app-create-project',
@@ -22,10 +24,17 @@ export class CreateProjectComponent implements OnInit,AfterViewInit {
   ) {}
 
   mode = "Criar";
-
+  states = STATES_BR;
 
   meetupForm!: FormGroup;
   userApp!:UserApp
+  cities:Array<City> = []
+  enableManualCity = false;
+  
+
+  selectedState: string = '';
+  selectedCity: string = '';
+  
 
   ngOnInit(): void {
     this.meetupForm = new FormGroup({
@@ -47,14 +56,35 @@ export class CreateProjectComponent implements OnInit,AfterViewInit {
     }
   }
 
+  onStateChange(state:string) {
+    console.log("teste",state,"ee",this.selectedState)
+    if(state === this.selectedState)
+        return;
+    
+    this.selectedState = state;
+    this.selectedCity = ""
+    this.meetupForm.get('city')?.setValue("");
+    this.cities = []
+    if (state) {
+      this.getCities(state);
+    }
+  }
+
+  onCityChange(name:string){
+    if(name  === this.selectedCity)
+        return;
+    
+    this.selectedCity = name;
+    this.meetupForm.get('city')?.setValue(this.selectedCity);
+  }
 
   updateForm(){    
     const {project} = this.data
     this.meetupForm = new FormGroup({
       name: new FormControl(project.name, Validators.required),
-      description: new FormControl(project.description),
-      reason: new FormControl(project.reason),
-      city: new FormControl(project.city)
+      description: new FormControl(project.description,Validators.required),
+      reason: new FormControl(project.reason,Validators.required),
+      city: new FormControl(project.city,Validators.required)
     });
   }
 
@@ -91,6 +121,18 @@ export class CreateProjectComponent implements OnInit,AfterViewInit {
       },
       error:()=>{
         this._snackBar.open("Não foi possivel editar o projeto.","fechar",{duration:10000})
+      }
+    })
+  }
+
+  getCities(uf:string){
+    this._projectService.getCitiesByState(uf).subscribe({
+      next:(res) =>{
+          this.cities = res;
+      
+      },
+      error:() => {
+        this.enableManualCity = true;
       }
     })
   }
