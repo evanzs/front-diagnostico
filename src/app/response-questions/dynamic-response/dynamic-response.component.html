@@ -9,28 +9,23 @@
  </mat-card>      
 </div> 
 
- <mat-card>  
-    <div class="d-flex p-2 justify-content-between">
-      <div class="d-flex justify-content-between align-items-center">        
-        <h2>{{responseQuestion.principles[indexPrinciple].name}} </h2>
-      </div>   
- 
-      <div class="d-flex justify-content-center align-items-center">
-        <mat-label class="p-2">Filtrar Questões:</mat-label>
-        <form>
+<mat-card class="mt-1 mb-1">
+    <div class="d-flex p-2 justify-content-center flex-wrap align-items-center ">
+      <div class="p-2 fw-bolder ">Filtrar Questões:</div>
+      <div class="">         
           <mat-chip-listbox [multiple]="true" (change)="changeTags($event)">
             <mat-chip-option [disabled]="disabledTagFilter" selected>Produção</mat-chip-option>
             <mat-chip-option [disabled]="disabledTagFilter" selected color="accent">Distribuição</mat-chip-option>
             <mat-chip-option [disabled]="disabledTagFilter" selected color="warn">Processamento</mat-chip-option>
-          </mat-chip-listbox>
-      </form>
-      <div class="p-2 flex-shrink-1">
+          </mat-chip-listbox>         
+      </div> 
+      <div class="p-2 ">
         <button mat-stroked-button color="accent" [disabled]="disabledTagFilter" (click)="aplicarFiltro()">Aplicar</button>
       </div>
-      </div> 
-      
-
     </div>
+    <div class="d-flex justify-content-center fw-bolder fs-5 text">        
+     {{responseQuestion.principles[indexPrinciple].name}}
+    </div>   
     <mat-card-header>      
       <!-- <button mat-stroked-button color="accent">Aplicar</button> -->
       <mat-card-title class="d-flex flex-column">   
@@ -42,9 +37,10 @@
     </mat-card-header>
   </mat-card>
     <form [formGroup]="dynamicForm">
-    <mat-expansion-panel *ngFor="let guideline of responseQuestion.principles[indexPrinciple].guidelines"
+    <mat-expansion-panel class="p-2" *ngFor="let guideline of responseQuestion.principles[indexPrinciple].guidelines"
     (opened)="panelOpenState = true"
-    (closed)="panelOpenState = false">
+    (closed)="panelOpenState = false"
+    [disabled]="!validateGuideline(guideline)">
   <mat-expansion-panel-header>
   <mat-panel-title>
   {{guideline.name}}
@@ -58,26 +54,34 @@
 
       <div class="" *ngIf="validateTag(question.tags)">
 
-       <div class="d-flex justify-content-between">
-         <p>{{question.ask}}</p> 
-         <mat-chip-listbox    aria-label="Dog selection">  
+       <div class=" ">
+
+        <div class="d-flex justify-content-between flex-wrap">
+          <p>{{question.ask}}</p>
+          <mat-chip-listbox    aria-label="Dog selection">  
             <mat-chip-option color="accent" selected>
              {{question.tags}}
             </mat-chip-option>
-           </mat-chip-listbox>
+          </mat-chip-listbox>  
+          
+        </div>
+        <div>
+          <mat-radio-group   [formControlName]="question._id"  [value]="question.rate" aria-label="Select an option">
+            <mat-radio-button  *ngFor="let item of radioItems" 
+                [value]="item"
+                [checked]="item == question.rate"
+              
+                >{{item}}</mat-radio-button>
+            
+          </mat-radio-group>
+        </div>
+        <mat-divider  class="m-3"></mat-divider>   
+         
        </div>
-     <mat-radio-group   [formControlName]="question._id"  [value]="question.rate" aria-label="Select an option">
-       <mat-radio-button  *ngFor="let item of radioItems" 
-           [value]="item"
-           [checked]="item == question.rate"
-        
-           >{{item}}</mat-radio-button>
-       
-     </mat-radio-group>
-     <mat-divider  class="m-3"></mat-divider>  
+      
       </div>
    
- </div>  
+    </div>  
   </div>
   
   <div *ngIf="validateGuideline(guideline)">
