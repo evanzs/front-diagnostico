@@ -4,6 +4,10 @@ import { Project } from '../models/project';
 import { Question } from '../models/question';
 import { ProjectService } from '../project.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Guideline } from '../models/guideline';
+import { tagsApp } from '../models/tags-map';
+import { TAG_OPTIONS } from '../models/tagOptions';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -16,8 +20,14 @@ export class DynamicFormComponent implements OnInit,OnChanges {
   @Output() nextPrinciple = new EventEmitter<number>();
   dynamicForm!: FormGroup;
   panelOpenState = false;
+  disabledTagFilter = false;
 
+  selectedTags = ['Produção','Processamento','Distribuição']
   radioItems = ['0','1','2','3','4','5','Não sei']
+  tagFilter = ['']
+
+  tagOptions = TAG_OPTIONS;
+
   constructor(private formBuilder: FormBuilder,
     private _projectService:ProjectService,
     private _snackBar: MatSnackBar) {}
@@ -25,7 +35,7 @@ export class DynamicFormComponent implements OnInit,OnChanges {
   ngOnInit() {
     this.indexPrinciple = 0;
     this.buildDynamicForm();
-
+    this.setTagFilter() 
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -65,8 +75,11 @@ export class DynamicFormComponent implements OnInit,OnChanges {
         });
       }
     }
+    this.project.tagFilter = this.tagFilter;
     this._projectService.updateCreatorResponse(this.project._id,this.project).subscribe({
       next:(project)=>{
+       
+
         this._snackBar.open("Questionário Salvo!","Fechar",{duration:6000})
       }
     })
@@ -76,10 +89,59 @@ export class DynamicFormComponent implements OnInit,OnChanges {
     this.nextPrinciple.emit(this.indexPrinciple+1)
   }
 
-  eventoPreviousPrinciple(){
-  
+  eventoPreviousPrinciple(){  
     this.nextPrinciple.emit(this.indexPrinciple -1)
   }
 
+  changeTags(event:any){
+    this.selectedTags = event.value
+  }  
+  aplicarFiltro(){
+    this.tagFilter = this.selectedTags;
+    this.panelOpenState =true;
+  }
+
+  setTagFilter(){
+
+    if(this.project.tagFilter){
+      this.tagFilter = this.project?.tagFilter[0].length ? this.project.tagFilter :   this.selectedTags
+    }
+    else{
+      this.tagFilter  = this.selectedTags
+    }
+    this.selectedTags = this.tagFilter
+  }
+
+  validateTag(tag:string[]):boolean{
+    const tagFiltred = tagsApp.find( t => t?.tag[0]?.toLowerCase() === tag[0]?.toLowerCase())?.filters ?? [] 
+
+    if(tag.length <= 0 )
+      return true;    
+
+    if(!this.tagFilter.includes(tagFiltred[0]))
+        return false;
+
+    return true;
+  }
+
+  validateGuideline(guideline:Guideline):boolean{
+    let result = false;
+    const tags = this.getTagsByGuideline(guideline)
+
+    tags.map( (t) => {
+      if(this.validateTag([t])){
+        result = true;
+      }
+    })
+    return result;
+  }
+
+  getTagsByGuideline(guideline:Guideline):string[] {     
+      const tags = [];  
+      for (const question of guideline.questions) {
+        tags.push(...question.tags);
+      }   
+    return tags;
+  }
 }
 
