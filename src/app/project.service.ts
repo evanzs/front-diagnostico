@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ResponseQuestion } from './models/response-question';
+import { City } from './models/city';
 
 @Injectable()
 export class ProjectService {
@@ -137,5 +138,12 @@ constructor(private http: HttpClient) { }
     }
     deleteProject(id:string):Observable<any>{        
         return this.http.delete<any>(this.URL+"/project/"+id)   
+    }
+
+
+    getCitiesByState(state: string):Observable<any> {
+        const url = `https://servicodados.ibge.gov.br/api/v1/localidade/estados/${state}/municipios`;
+        
+        return this.http.get<City[]>(url)
     }
 }
