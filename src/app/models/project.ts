@@ -10,4 +10,5 @@ export interface Project {
   answers:Array<string>
   updateAt:Date;
   createAt:Date;
+  tagFilter:string[]
 }
