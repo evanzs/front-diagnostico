@@ -1,20 +1,23 @@
- <mat-card>
-  <div class="d-flex justify-content-end align-items-center">
-    <mat-label class="p-2">Filtrar Questões:</mat-label>
-    <form>      
-      <mat-chip-listbox [multiple]="true" (change)="changeTags($event)">
-        <mat-chip-option
-          *ngFor="let tagOption of tagOptions"
-          [disabled]="tagOption.disabled"
-          [value]="tagOption.value"
-          [color]="tagOption.color"
-          [selected]="selectedTags.includes(tagOption.value)"
-        >
-          {{ tagOption.label }}
-        </mat-chip-option>
-      </mat-chip-listbox>
-  </form>
-  <div class="p-2 flex-shrink-1">
+ <mat-card class="mt-1 mb-1">
+  <div class="d-flex justify-content-center align-items-center flex-wrap">
+
+      <div class="m-1 p-2 fw-bolder">  Filtrar Questões:</div>
+
+      <div class="p-2 ">
+        <mat-chip-listbox [multiple]="true" (change)="changeTags($event)" >
+          <mat-chip-option
+            *ngFor="let tagOption of tagOptions"
+            [disabled]="tagOption.disabled"
+            [value]="tagOption.value"
+            [color]="tagOption.color"
+            [selected]="selectedTags.includes(tagOption.value)"
+          >
+            {{ tagOption.label }}
+          </mat-chip-option>
+        </mat-chip-listbox>
+      </div>
+
+  <div class="p-2">
     <button mat-stroked-button color="accent" [disabled]="disabledTagFilter" (click)="aplicarFiltro()">Aplicar</button>
   </div>
   </div> 
@@ -26,11 +29,12 @@
   </mat-card-header>
 </mat-card>
   <form [formGroup]="dynamicForm">
-  <mat-expansion-panel *ngFor="let guideline of project.principles[indexPrinciple].guidelines"
+  <mat-expansion-panel class="p-2" *ngFor="let guideline of project.principles[indexPrinciple].guidelines"
   (opened)="panelOpenState = true"
-  (closed)="panelOpenState = false">
+  (closed)="panelOpenState = false"
+  [disabled]="!validateGuideline(guideline)">
 <mat-expansion-panel-header>
-<mat-panel-title>
+<mat-panel-title class="w-100">
 {{guideline.name}}
 </mat-panel-title>
 <mat-panel-description>
@@ -41,7 +45,7 @@
 <div *ngIf="validateGuideline(guideline)" >
   <div class="row m-3" *ngFor="let question of guideline.questions">  
     <div class="" *ngIf="validateTag(question.tags)">
-      <div class="d-flex justify-content-between">
+      <div class="d-flex justify-content-between flex-wrap">
         <p>{{question.ask}}</p> 
         <mat-chip-listbox    aria-label="Dog selection">  
           <mat-chip-option color="accent" [selected]="true">

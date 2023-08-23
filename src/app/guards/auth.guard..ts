@@ -32,6 +32,7 @@ export class AuthGuard {
 
         return false;
      }
+     
      return this._authService.userSessionValidate();       
        
   }  
