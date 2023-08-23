@@ -3,10 +3,12 @@ import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, 
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from 'src/app/auth.service';
 import { Guideline } from 'src/app/models/guideline';
 import { Question } from 'src/app/models/question';
 import { ResponseQuestion } from 'src/app/models/response-question';
 import { tagsApp } from 'src/app/models/tags-map';
+import { UserApp } from 'src/app/models/userApp';
 import { ProjectService } from 'src/app/project.service';
 
 
@@ -31,21 +33,23 @@ export class DynamicResponseComponent implements OnInit,OnChanges{
     btnText:""
 }
   radioItems = ['0','1','2','3','4','5','Não sei']
-  selectedTags = ['Produção','Processamento','Distruibuição']
+  selectedTags = ['Produção','Processamento','Distribuição']
   constructor(private formBuilder: FormBuilder,
     private _projectService:ProjectService,
     public dialog: MatDialog,
+    private _authService:AuthService,
     private _snackBar: MatSnackBar
    
     ) { }
 
-  
+  userApp!:UserApp;
   tagFilter = ['']
   ngOnInit() {
     this.indexPrinciple = 0
     this.verifyEdit()
     this.buildDynamicForm();
     this.setTagFilter()
+    this.userApp = this._authService.getUser()
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -95,9 +99,7 @@ export class DynamicResponseComponent implements OnInit,OnChanges{
           const question = guideline.questions.find((q) => q._id === questionId);
 
           if (question) {
-
-              question.rate = answer;
-              
+              question.rate = answer;              
           }
         });
       }
@@ -114,9 +116,14 @@ export class DynamicResponseComponent implements OnInit,OnChanges{
 
   create(){
 
+    if(this.userApp?.email){
+            this.responseQuestion.email = this.userApp?.email
+    }
+    
     this._projectService.createResponse(this.responseQuestion.projectId,this.responseQuestion).subscribe(
       {next:(res)=>{
       this.responseQuestion = res
+      this._projectService.checkComplete(res._id)
         this.openDialog(res?._id)
       }
     });
@@ -126,6 +133,7 @@ export class DynamicResponseComponent implements OnInit,OnChanges{
   update(id:string){
     this._projectService.updateResponse(id,this.responseQuestion).subscribe(
       {next:(res)=>{
+        this._projectService.checkComplete(res._id)
         this.openDialog(res?._id)
       }
     }
@@ -169,13 +177,11 @@ export class DynamicResponseComponent implements OnInit,OnChanges{
   }  
 
   validateTag(tag:string[]):boolean{
-    const tagFiltred = tagsApp.find( t => t.tag[0] === tag[0])?.filters ?? []
- 
-    if(tag.length <= 0 )
+    const tagFiltred = tagsApp.find( t => t?.tag[0]?.toLowerCase() === tag[0]?.toLowerCase())?.filters ?? [] 
+    if(tag.length <= 1 )
       return true;
     if(!this.tagFilter.includes(tagFiltred[0]))
         return false;
-
 
     return true;
   }
@@ -183,7 +189,11 @@ export class DynamicResponseComponent implements OnInit,OnChanges{
   validateGuideline(guideline:Guideline):boolean{
     let result = false;
     const tags = this.getTagsByGuideline(guideline)
-
+    
+    if(tags.length <= 1){
+     
+      return true;
+    }
     tags.map( (t) => {
       if(this.validateTag([t])){
         result = true;
