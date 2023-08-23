@@ -13,4 +13,9 @@
     overflow: auto;
     width: 100%;
     padding: 20px;
+   
+  }
+  .mat-container{
+    border-radius: 20px; /* Raio de borda */
+    box-shadow: 0px 10px 10px hsl(342, 83%, 82%); /* Sombra */
   }

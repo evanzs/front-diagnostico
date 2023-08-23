@@ -142,7 +142,7 @@ constructor(private http: HttpClient) { }
 
 
     getCitiesByState(state: string):Observable<any> {
-        const url = `https://servicodados.ibge.gov.br/api/v1/localidade/estados/${state}/municipios`;
+        const url = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${state}/municipios`;
         
         return this.http.get<City[]>(url)
     }
