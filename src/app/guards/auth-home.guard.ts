@@ -4,6 +4,7 @@ import { ActivatedRouteSnapshot, CanActivate, CanActivateFn, Router, RouterState
 import { AuthService } from '../auth.service';
 import { Observable } from 'rxjs';
 import { LoginService } from '../login/login.service';
+import { ProjectService } from '../project.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,8 @@ export class AuthHomeGuard {
 
  constructor(
   private readonly router:Router,
+  private readonly _projectService:ProjectService,
+  private readonly _loginService:LoginService,
   private readonly _authService:AuthService
   ) { }
 
@@ -19,11 +22,17 @@ export class AuthHomeGuard {
      const isTokenExpired  = this._authService.isTokenExpired();
 
      if(isTokenExpired){
-        this.router.navigate(['login'])      
+         this._authService.removeToken();
+         this._authService.removeUser();
+         this._projectService.removeEnvProject();
+         this._loginService.disableMenuNav();
+         this._loginService.disableMenuBar();
+         this._loginService.disableMenuResponser();
+        this.router.navigate(['login'])    
         return false;
      }
    
-    this._authService.enableMenu()
+     this._authService.enableMenu()
      return true;       
   }
   
