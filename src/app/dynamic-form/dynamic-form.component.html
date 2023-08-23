@@ -1,4 +1,25 @@
  <mat-card>
+  <div class="d-flex justify-content-end align-items-center">
+    <mat-label class="p-2">Filtrar Questões:</mat-label>
+    <form>      
+      <mat-chip-listbox [multiple]="true" (change)="changeTags($event)">
+        <mat-chip-option
+          *ngFor="let tagOption of tagOptions"
+          [disabled]="tagOption.disabled"
+          [value]="tagOption.value"
+          [color]="tagOption.color"
+          [selected]="selectedTags.includes(tagOption.value)"
+        >
+          {{ tagOption.label }}
+        </mat-chip-option>
+      </mat-chip-listbox>
+  </form>
+  <div class="p-2 flex-shrink-1">
+    <button mat-stroked-button color="accent" [disabled]="disabledTagFilter" (click)="aplicarFiltro()">Aplicar</button>
+  </div>
+  </div> 
+
+
   <mat-card-header>
     <mat-card-title>{{project.principles[indexPrinciple].name}}</mat-card-title>
     <mat-card-subtitle>{{project.principles[indexPrinciple].description}}</mat-card-subtitle>
@@ -15,39 +36,43 @@
 <mat-panel-description>
 {{guideline.description}}
 </mat-panel-description>
+
 </mat-expansion-panel-header >
-<div class="row m-3" *ngFor="let question of guideline.questions">     
-
-<div class="d-flex justify-content-between">
-  <p>{{question.ask}}</p> 
-  <mat-chip-listbox    aria-label="Dog selection">  
-     <mat-chip-option color="accent" selected>
-      {{question.tags}}
-     </mat-chip-option>
-    </mat-chip-listbox>
+<div *ngIf="validateGuideline(guideline)" >
+  <div class="row m-3" *ngFor="let question of guideline.questions">  
+    <div class="" *ngIf="validateTag(question.tags)">
+      <div class="d-flex justify-content-between">
+        <p>{{question.ask}}</p> 
+        <mat-chip-listbox    aria-label="Dog selection">  
+          <mat-chip-option color="accent" [selected]="true">
+            {{question.tags}}
+          </mat-chip-option>
+          </mat-chip-listbox>
+      </div>
+      <mat-radio-group   [formControlName]="question._id"  [value]="question.rate" aria-label="Select an option">
+        <mat-radio-button  *ngFor="let item of radioItems" 
+            [value]="item"
+            [checked]="item == question.rate"    
+            >{{item}}</mat-radio-button>
+        
+      </mat-radio-group>
+      <mat-divider  class="m-3"></mat-divider> 
+   </div>  
+    </div>
+   
+ <p class="font-weight-bold" style="font-weight: bolder;">
+   Você gostaria de justificar algumas das suas respostas nesta seção e dar exemplos de
+   iniciativas ou empresas que causem impacto positivo ou negativo  no sistema alimentar local?
+   Se sim, escreva no campo abaixo.
+ </p>
+ <mat-form-field class="d-flex" >
+   <mat-label>Justificar</mat-label>
+   <textarea  [formControlName]="guideline._id" matInput [value]="guideline.sugestion"></textarea>
+ </mat-form-field> 
+ <mat-action-row>
+   <button type="button" mat-button color="primary" (click)="saveForm()">Salvar</button>
+ </mat-action-row> 
 </div>
-<mat-radio-group   [formControlName]="question._id"  [value]="question.rate" aria-label="Select an option">
-  <mat-radio-button  *ngFor="let item of radioItems" 
-      [value]="item"
-      [checked]="item == question.rate"    
-      >{{item}}</mat-radio-button>
-  
-</mat-radio-group>
-<mat-divider  class="m-3"></mat-divider> 
-
-</div>  
-<p class="font-weight-bold" style="font-weight: bolder;">
-  Você gostaria de justificar algumas das suas respostas nesta seção e dar exemplos de
-  iniciativas ou empresas que causem impacto positivo ou negativo  no sistema alimentar local?
-  Se sim, escreva no campo abaixo.
-</p>
-<mat-form-field class="d-flex" >
-  <mat-label>Justificar</mat-label>
-  <textarea  [formControlName]="guideline._id" matInput [value]="guideline.sugestion"></textarea>
-</mat-form-field> 
-<mat-action-row>
-  <button type="button" mat-button color="primary" (click)="saveForm()">Salvar</button>
-</mat-action-row> 
 </mat-expansion-panel>    
 </form>
 <div class="d-flex mt-2 justify-content-center p-2">
