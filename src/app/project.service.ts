@@ -131,7 +131,10 @@ constructor(private http: HttpClient) { }
         return this.http.patch<any>(this.URL+"/project/response/"+responseId,data)       
     }
 
-
+    checkComplete(id:string){
+        this.http.get<any>(this.URL+"/project/check/"+id) .subscribe() 
+        return;
+    }
     deleteProject(id:string):Observable<any>{        
         return this.http.delete<any>(this.URL+"/project/"+id)   
     }
